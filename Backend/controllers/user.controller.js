@@ -277,5 +277,109 @@ const getMe = async (req, res) => {
     }
 };
 
+/*
+const userSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+            // Email validation pattern: matches a standard email format
+            match: new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/),
+        },
+        password: {
+            type: String,
+            required: true,
+            minlength: 6,
+        },
+        phoneNumber: {
+            type: String,
+        },
+        role: {
+            type: String,
+            enum: ["USER", "ADMIN"],
+            default: "USER",
+            required: true,
+        },
 
-export { signUp, login, refreshAccessToken, logout, getMe };
+        refreshToken: {
+            type: String, // The refresh token itself
+            default: null,
+        },
+
+        // array of strings
+        interests: {
+            type: [String],
+        },
+
+        incomeGroup: {
+            type: String,
+            enum: ['EWS', 'General', 'OBC', 'SC', 'ST'],
+
+        },
+
+        state: {
+            type: String,
+        },
+
+        age: {
+            type: Number,
+        },
+
+        favorites: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'Scheme',
+        },
+
+        gender: {
+            type: String,
+            enum: ['male', 'female', 'other'],
+        },
+
+        role: {
+            type: String,
+            enum: ["USER", "ADMIN"],
+            default: "USER",
+            required: true,
+        },
+
+
+    },
+
+    { timestamps: true }
+);
+*/
+
+const putData = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const user = await User.findByIdAndUpdate(
+            userId,
+            req.body,
+            {
+                new: true,
+            }
+        );
+        return res.status(200).json({
+            status: 200,
+            data: user,
+            message: "User details updated successfully",
+            success: true,
+        });
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message,
+            status: 500,
+            success: false,
+        });
+    }
+};
+
+
+export { signUp, login, refreshAccessToken, logout, getMe, putData };
