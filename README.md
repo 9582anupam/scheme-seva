@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+# Scheme Seva - Government Scheme Management Portal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive platform that helps citizens discover, understand, and access government schemes in India.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### 1. Scheme Discovery
+- Browse through central and state government schemes
+- Advanced filtering system based on:
+  - Income groups (EWS, General, OBC, SC, ST)
+  - Gender categories
+  - State-specific schemes
+  - Age groups
+  - Categories/Tags
 
-### `npm start`
+### 2. AI-Powered Chatbot
+- Interactive chatbot for scheme-related queries
+- Multilingual support (English, Hindi, Punjabi)
+- Context-aware responses about:
+  - Eligibility criteria
+  - Application process
+  - Required documents
+  - Scheme benefits
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 3. User Management
+- User registration and authentication
+- Personalized profile management
+- Save favorite schemes
+- Track application status
+- Custom recommendations based on user profile
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 4. Recommendation System
+- Personalized scheme suggestions based on:
+  - User demographics
+  - Income group
+  - Location
+  - Interests
+  - Previous interactions
 
-### `npm test`
+## Technical Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Frontend
+- React.js
+- Material-UI
+- Tailwind CSS
+- Axios for API integration
+- React Router for navigation
 
-### `npm run build`
+### Backend
+- Node.js with Express
+- MongoDB with Mongoose
+- JWT for authentication
+- Google's Generative AI (Gemini) for chatbot
+- RESTful API architecture
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Setup Instructions
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository
+```bash
+git clone [repository-url]
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Frontend Setup
+```bash
+cd Frontend
+npm install
+npm start
+```
 
-### `npm run eject`
+3. Backend Setup
+```bash
+cd Backend
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. Environment Variables
+Create .env file in Backend directory with:
+```
+PORT=8000
+MONGODB_URI=your_mongodb_uri
+ACCESS_TOKEN_SECRET=your_access_token_secret
+REFRESH_TOKEN_SECRET=your_refresh_token_secret
+GEMINI_API_KEY=your_gemini_api_key
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. Start Backend Server
+```bash
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## API Endpoints
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### User Routes
+- POST `/api/v1/users/register` - User registration
+- POST `/api/v1/users/login` - User login
+- GET `/api/v1/users/profile` - Get user profile
 
-## Learn More
+### Scheme Routes
+- GET `/api/v1/schemes/get-all-schemes` - Get all schemes
+- GET `/api/v1/schemes/get-scheme-filtered` - Get filtered schemes
+- GET `/api/v1/schemes/get-scheme-by-id/:id` - Get specific scheme
+- POST `/api/v1/schemes/create-scheme` - Create new scheme
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Chatbot Routes
+- POST `/api/v1/chatbot` - Get AI-powered responses
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contributing
 
-### Code Splitting
+Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## License
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the MIT License - see the LICENSE.md file for details.
