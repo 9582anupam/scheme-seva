@@ -9,6 +9,7 @@ import Unauthenticated from "./routes/Unauthenticated";
 import UserProvider from "./context/UserContext";
 import SchemeDetails from "./components/pages/SchemeDetails/SchemeDetails";
 import FindScheme from "./components/pages/search/FindScheme";
+import Profile from "./components/pages/profile/Profile";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
                     <div className="content-wrapper pt-[5rem]">
                         <Routes>
                             {/* Public Routes - No Auth Needed */}
+                            
                             <Route path="/" element={<Home />} />
                             <Route path="/schemes" element={<FindScheme/>}/>
                             <Route path="/scheme/:id" element={<SchemeDetails />}/>
@@ -50,6 +52,7 @@ function App() {
                             {/* Protected Routes - Only Accessible When Logged In */}
                             <Route element={<ProtectedRoutes />}>
                                 {/* <Route path="/profile" element={<div>Dashboard</div>} /> */}
+                                <Route path="/profile" element={<Profile/>} />
                             </Route>
 
                         </Routes>
