@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getSchemeById } from "../../../services/schemes/schemeService";
 import { ArrowLeft, Target, List, FileText, Users, Building, Globe, Download, Share2 } from 'lucide-react';
 import { jsPDF } from 'jspdf';  // Import jsPDF
+import ChatBot from "../../common/chatbot/ChatBot";
 
 const SchemeDetails = () => {
     const { id } = useParams();
@@ -212,6 +213,7 @@ const SchemeDetails = () => {
                     </button>
                 </div>
             </div>
+            {scheme && <ChatBot schemeId={scheme._id} />}
         </div>
     );
 };

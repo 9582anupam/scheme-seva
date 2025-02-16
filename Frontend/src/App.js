@@ -10,6 +10,7 @@ import UserProvider from "./context/UserContext";
 import SchemeDetails from "./components/pages/SchemeDetails/SchemeDetails";
 import FindScheme from "./components/pages/search/FindScheme";
 import Profile from "./components/pages/profile/Profile";
+import Recommendations from "./components/pages/Recommendations/Recommendations";
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
                             <Route element={<ProtectedRoutes />}>
                                 {/* <Route path="/profile" element={<div>Dashboard</div>} /> */}
                                 <Route path="/profile" element={<Profile/>} />
+                                <Route path="/recommendations" element={<Recommendations />} />
                             </Route>
 
                         </Routes>
