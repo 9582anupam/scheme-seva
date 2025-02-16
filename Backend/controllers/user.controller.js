@@ -255,4 +255,27 @@ const logout = async (req, res) => {
     }
 };
 
-export { signUp, login, refreshAccessToken, logout };
+
+const getMe = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const user = await User.findById(userId).select("-password -refreshToken");
+        return res.status(200).json({
+            status: 200,
+            data: user,
+            message: "User details fetched successfully",
+            success: true,
+        });
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message,
+            status: 500,
+            success: false,
+        });
+    }
+};
+
+
+export { signUp, login, refreshAccessToken, logout, getMe };
