@@ -29,30 +29,49 @@ const userSchema = new mongoose.Schema(
             default: "USER",
             required: true,
         },
-        address: {
-            streetAddress: {
-                type: String,
-            },
-            city: {
-                type: String,
-            },
-            state: {
-                type: String,
-            },
-            postalCode: {
-                type: String,
-            },
-            country: {
-                type: String,
-            },
-        },
-        cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-        orderHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
 
         refreshToken: {
             type: String, // The refresh token itself
             default: null,
         },
+
+        // array of strings
+        interests: {
+            type: [String],
+        },
+
+        incomeGroup: {
+            type: String,
+            enum: ['EWS', 'General', 'OBC', 'SC', 'ST'],
+
+        },
+
+        state: {
+            type: String,
+        },
+
+        age: {
+            type: Number,
+        },
+
+        favorites: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'Scheme',
+        },
+
+        gender: {
+            type: String,
+            enum: ['male', 'female', 'other'],
+        },
+
+        role: {
+            type: String,
+            enum: ["USER", "ADMIN"],
+            default: "USER",
+            required: true,
+        },
+
+
     },
 
     { timestamps: true }

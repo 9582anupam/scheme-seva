@@ -26,26 +26,26 @@ const getAllSchemes = async (req, res) => {
 
 const getSchemeFiltered = async (req, res) => {
     try {
-        const { title, objective, tags, gender, incomeGroup, age, state } = req.query;
+        const { tags, gender, incomeGroup, age, state } = req.query;
 
         // Build the filter object
         let filter = {};
 
-        // Filtering by title (case-insensitive regex match)
-        if (title) {
-            filter.title = { $regex: title, $options: 'i' };
+        // Filtering by state (since it is "all" in your data, this is an optional filter)
+        if (state && state.length > 0 && state !== "all") {
+            filter.state = { $in: state }; // Filter by state if it's provided and not "all"
         }
 
-        // Filtering by objective (case-insensitive regex match)
-        if (objective) {
-            filter.objective = { $regex: objective, $options: 'i' };
-        }
+
+
+        // REMOVED TEMPORARILY
+        // Filtering by tags (match any of the provided tags)
+        // if (tags && tags.length > 0) {
+        //     filter.tags = { $in: tags }; // Match if any tag exists in the tags array
+        // }
+
 
         // Filtering by tags (match any of the provided tags)
-        if (tags && tags.length > 0) {
-            filter.tags = { $in: tags }; // Match if any tag exists in the tags array
-        }
-
         // Filtering by gender (male, female, other)
         if (gender && gender.length > 0) {
             filter['category.gender'] = { $in: gender }; // Filter by gender
