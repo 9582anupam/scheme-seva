@@ -3,7 +3,6 @@ import User from "../models/user.model.js";
 
 export const getPersonalizedRecommendations = async (req, res) => {
     try {
-        console.log("getPersonalizedRecommendations");
         const userId = req.user._id;
         const user = await User.findById(userId);
 
