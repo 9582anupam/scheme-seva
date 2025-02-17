@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getSchemeById } from "../../../services/schemes/schemeService";
 import { ArrowLeft, Target, List, FileText, Users, Building, Globe, Download, Share2 } from 'lucide-react';
-import { jsPDF } from 'jspdf';  // Import jsPDF
+import html2pdf from 'html2pdf.js';
 import ChatBot from "../../common/chatbot/ChatBot";
 
 const SchemeDetails = () => {
@@ -11,6 +11,7 @@ const SchemeDetails = () => {
     const [scheme, setScheme] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const contentRef = useRef(null);
 
     useEffect(() => {
         const fetchSchemeDetails = async () => {
@@ -35,56 +36,16 @@ const SchemeDetails = () => {
 
     // pdf generate option
     const generatePDF = () => {
-        try {
-            const doc = new jsPDF();
-    
-            doc.setFontSize(20);
-            doc.text(scheme.title, 20, 30);
-    
-            doc.setFontSize(16);
-            doc.text("Objective:", 20, 40);
-            doc.setFontSize(12);
-            doc.text(scheme.objective, 20, 50);
-    
-            doc.setFontSize(16);
-            doc.text("Key Features:", 20, 60);
-            scheme.keyFeatures.forEach((feature, index) => {
-                doc.text(`${index + 1}. ${feature}`, 20, 70 + (index * 10));
-            });
-    
-            doc.setFontSize(16);
-            doc.text("How to Apply:", 20, 90);
-            if (scheme.howToApply.online) {
-                doc.setFontSize(12);
-                doc.text("Online:", 20, 100);
-                doc.text(scheme.howToApply.online, 20, 110);
-            }
-            if (scheme.howToApply.offline) {
-                doc.setFontSize(12);
-                doc.text("Offline:", 20, 120);
-                doc.text(scheme.howToApply.offline, 20, 130);
-            }
-    
-            doc.setFontSize(16);
-            doc.text("Required Documents:", 20, 140);
-            scheme.documentsRequired.forEach((docItem, index) => {
-                doc.setFontSize(12);
-                doc.text(`${index + 1}. ${docItem}`, 20, 150 + (index * 10));
-            });
-    
-            doc.setFontSize(16);
-            doc.text("Categories:", 20, 170);
-            scheme.category.incomeGroup.forEach((group, index) => {
-                doc.setFontSize(12);
-                doc.text(group, 20, 180 + (index * 10));
-            });
-    
-            doc.save(`${scheme.title}.pdf`);
-        } catch (error) {
-            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-8" role="alert">
-                <p className="text-red-700">Error generating PDF: {error}</p>
-            </div>
-        }
+        const element = contentRef.current;
+        const opt = {
+            margin: 1,
+            filename: `${scheme.title}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save();
     };
 
     const handleShare = () => {
@@ -117,7 +78,7 @@ const SchemeDetails = () => {
                 Back
             </button>
 
-            <div className="bg-white rounded-lg shadow-lg p-6">
+            <div ref={contentRef} className="bg-white rounded-lg shadow-lg p-6">
                 <h1 className="text-3xl font-bold mb-4 text-[#74B83E]">{scheme.title}</h1>
                 
                 <section className="mb-6">
