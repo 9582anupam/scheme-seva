@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware Setup
 const corsOptions = {
-    origin: ["https://schemesevagov.vercel.app", "http://localhost:3000", "https://schemeseva-blond.vercel.app", "https://scheme-seva-frontend.vercel.app"], // Allow your frontend domain and others
+    origin: ["https://schemesevagov.vercel.app", "http://localhost:3000", "https://schemeseva-blond.vercel.app", "https://scheme-seva-frontend.vercel.app", "https://scheme-seva-gov.vercel.app"], // Allow your frontend domain and others
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Enable cookies in requests and responses
