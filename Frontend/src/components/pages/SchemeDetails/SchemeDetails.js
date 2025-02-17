@@ -55,8 +55,8 @@ const SchemeDetails = () => {
             navigator.share({
                 text: shareText,
             })
-            .then(() => console.log("Shared successfully"))
-            .catch((error) => console.log("Sharing failed", error));
+                .then(() => console.log("Shared successfully"))
+                .catch((error) => console.log("Sharing failed", error));
         } else {
             navigator.clipboard.writeText(window.location.href).then(() => {
                 alert("Scheme URL copied to clipboard!");
@@ -66,11 +66,11 @@ const SchemeDetails = () => {
             });
         }
     };
-    
+
 
     return (
         <div className="max-w-4xl mx-auto p-6">
-            <button 
+            <button
                 onClick={() => navigate(-1)}
                 className="mb-6 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 flex items-center"
             >
@@ -80,7 +80,7 @@ const SchemeDetails = () => {
 
             <div ref={contentRef} className="bg-white rounded-lg shadow-lg p-6">
                 <h1 className="text-3xl font-bold mb-4 text-[#74B83E]">{scheme.title}</h1>
-                
+
                 <section className="mb-6">
                     <h2 className="text-xl font-semibold mb-2 flex items-center">
                         <Target className="mr-2" size={24} />
@@ -161,7 +161,7 @@ const SchemeDetails = () => {
                         <Globe className="mr-2" size={20} />
                         Apply Online
                     </a>
-                    <button 
+                    <button
                         onClick={generatePDF} //call jayegi
                         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center"
                     >
