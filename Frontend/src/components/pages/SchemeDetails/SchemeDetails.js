@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getSchemeById } from "../../../services/schemes/schemeService";
 import { ArrowLeft, Target, List, FileText, Users, Building, Globe, Download, Share2 } from 'lucide-react';
-import html2pdf from 'html2pdf.js';
 import ChatBot from "../../common/chatbot/ChatBot";
+import { generatePDF } from "../../../helper/generatePdf";
 
 const SchemeDetails = () => {
     const { id } = useParams();
@@ -32,21 +32,6 @@ const SchemeDetails = () => {
     if (loading) return <div className="p-4 text-center">Loading...</div>;
     if (error) return <div className="p-4 text-red-500 text-center">{error}</div>;
     if (!scheme) return <div className="p-4 text-center">Scheme not found</div>;
-
-
-    // pdf generate option
-    const generatePDF = () => {
-        const element = contentRef.current;
-        const opt = {
-            margin: 1,
-            filename: `${scheme.title}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
-
-        html2pdf().set(opt).from(element).save();
-    };
 
     const handleShare = () => {
         const shareText = `Check out this scheme: ${scheme.title}\n\nLearn more here: ${window.location.href}`;
@@ -162,7 +147,7 @@ const SchemeDetails = () => {
                         Apply Online
                     </a>
                     <button
-                        onClick={generatePDF} //call jayegi
+                        onClick={generatePDF(contentRef, scheme.title)} //call jayegi
                         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center"
                     >
                         <Download className="mr-2" size={20} />
