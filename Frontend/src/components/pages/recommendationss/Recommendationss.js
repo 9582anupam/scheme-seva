@@ -4,7 +4,7 @@ import { Search } from 'lucide-react';
 import SchemeCard from '../../common/schemeCard/SchemeCard';
 import { getPersonalizedRecommendations } from '../../../services/recommendations/recommendationService';
 
-const Recommendations = () => {
+const Recommendationss = () => {
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -65,4 +65,4 @@ const Recommendations = () => {
     );
 };
 
-export default Recommendations;
+export default Recommendationss;
