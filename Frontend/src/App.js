@@ -7,10 +7,10 @@ import Signup from "./components/pages/auth/Signup";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import Unauthenticated from "./routes/Unauthenticated";
 import UserProvider from "./context/UserContext";
-import SchemeDetails from "./components/pages/schemeDetailss/SchemeDetailss";
+import SchemeDetails from "./components/pages/schemeDetails/SchemeDetailss";
 import Schemes from "./components/pages/schemes/Schemes";
 import Profile from "./components/pages/profile/Profile";
-import Recommendationss from "./components/pages/recommendationss/Recommendationss";
+import Recommendations from "./components/pages/recommendations/Recommendations";
 import { Toaster } from 'react-hot-toast';
 
 
@@ -57,7 +57,7 @@ function App() {
                             <Route element={<ProtectedRoutes />}>
                                 {/* <Route path="/profile" element={<div>Dashboard</div>} /> */}
                                 <Route path="/profile" element={<Profile/>} />
-                                <Route path="/recommendations" element={<Recommendationss />} />
+                                <Route path="/recommendations" element={<Recommendations />} />
                             </Route>
 
                         </Routes>
