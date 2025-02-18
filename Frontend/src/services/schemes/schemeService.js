@@ -1,46 +1,111 @@
-const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/api/v1/schemes`;
+import axios from "axios";
+// const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/api/v1/schemes`;
+const BACKEND_URLV2 = `${process.env.REACT_APP_BACKEND_URL}/api/v1/schemesv2`;
+
+// Create axios instance with default config
+const api = axios.create({
+    baseURL: BACKEND_URLV2,
+    withCredentials: true,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
 
 export const getFilteredSchemes = async (filters) => {
     try {
-        const queryParams = new URLSearchParams();
-        
-        // Add filters to query params
-        if (filters.tags) queryParams.append('tags', filters.tags);
-        if (filters.gender) queryParams.append('gender', filters.gender);
-        if (filters.age) queryParams.append('age', filters.age); // Removed '+' concatenation
-        if (filters.incomeGroup) queryParams.append('incomeGroup', filters.incomeGroup);
-        if (filters.state) queryParams.append('state', filters.state);
+        const params = {
+            ...(filters.search && { search: filters.search }),
+            ...(filters.schemeName && { schemeName: filters.schemeName }),
+            ...(filters.openDate && { openDate: filters.openDate }),
+            ...(filters.closeDate && { closeDate: filters.closeDate }),
+            ...(filters.state && { state: filters.state }),
+            ...(filters.nodalMinistryName && { nodalMinistryName: filters.nodalMinistryName }),
+            ...(filters.level && { level: filters.level }),
+            ...(filters.category && { category: filters.category }),
+            ...(filters.gender && { gender: filters.gender }),
+            ...(filters.incomeGroup && { incomeGroup: filters.incomeGroup })
+        };
 
-        const response = await fetch(`${BACKEND_URL}/get-scheme-filtered?${queryParams}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return await response.json();
+        const { data } = await api.get('/get-filtered-schemes', { params });
+        return data;
     } catch (error) {
-        throw error;
+        throw error.response?.data || error.message;
     }
 };
 
 export const getAllSchemes = async () => {
     try {
-        const response = await fetch(`${BACKEND_URL}/get-all-schemes`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return await response.json();
+        const { data } = await api.get('/get-all-schemes');
+        return data;
     } catch (error) {
-        throw error;
+        throw error.response?.data || error.message;
     }
-}
+};
 
 export const getSchemeById = async (id) => {
     try {
-        const response = await fetch(`${BACKEND_URL}/get-scheme-by-id/${id}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return await response.json();
+        const { data } = await api.get(`/get-scheme-by-id/${id}`);
+        return data;
     } catch (error) {
-        throw error;
+        throw error.response?.data || error.message;
+    }
+};
+
+export const saveFavoriteSchemes = async (schemeId) => {
+    try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const { data } = await api.post('/save-favorite-schemes',
+            { schemeId },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+        return data;
+    } catch (error) {
+        throw error.response?.data || error.message;
+    }
+};
+
+
+export const removeFavoriteSchemes = async (schemeId) => {
+    try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const response = await api.delete(`/remove-favorite-schemes/${schemeId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || error;
+    }
+};
+
+
+
+export const getFavoriteSchemes = async () => {
+    try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const response = await api.get('/get-favorite-schemes', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data || []; // Ensure we return an array
+    } catch (error) {
+        console.error('Error fetching favorites:', error);
+        return [];
     }
 };

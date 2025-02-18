@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SchemeSearch from "../../common/SchemeSearch/SchemeSearch";
+import SchemeSearch from "./SchemeSearch";
 import { getFilteredSchemes } from "../../../services/schemes/schemeService";
 import { Search } from 'lucide-react';
 import { getAllSchemes } from "../../../services/schemes/schemeService";
 import { ArrowRight } from 'lucide-react';
+// import Markdown from "react-markdown";
 const Schemes = () => {
     const navigate = useNavigate();
     const [schemes, setSchemes] = useState([]);
@@ -68,11 +69,13 @@ const Schemes = () => {
                         >
                             <div className="p-6 space-y-4">
                                 <div className="space-y-2">
-                                    <h2 className="text-xl font-bold text-gray-900 group-hover:text-[#74B83E] transition-colors duration-300">
-                                        {scheme.title}
+                                    <h2 className="text-xl font-bold text-gray-900 group-hover:text-[#74B83E] transition-colors duration-300 line-clamp-2">
+                                        {scheme.schemeName}
                                     </h2>
-                                    <p className="text-gray-600 text-sm leading-relaxed">
-                                        {scheme.objective}
+                                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                                        {/* <Markdown> */}
+                                            {scheme.detailedDescription_md}
+                                        {/* </Markdown> */}
                                     </p>
                                 </div>
 

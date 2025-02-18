@@ -11,6 +11,8 @@ import SchemeDetails from "./components/pages/SchemeDetails/SchemeDetails";
 import Schemes from "./components/pages/schemes/Schemes";
 import Profile from "./components/pages/profile/Profile";
 import Recommendations from "./components/pages/Recommendations/Recommendations";
+import { Toaster } from 'react-hot-toast';
+
 
 function App() {
 
@@ -19,6 +21,7 @@ function App() {
         <BrowserRouter>
             <UserProvider>
                 <div className="App">
+                    <Toaster position="bottom-right" />
 
                     {/* HEADER-NAVBAR-SIDEBAR */}
                     <div className="fixed z-40 w-full">

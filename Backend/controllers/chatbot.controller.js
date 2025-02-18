@@ -1,5 +1,5 @@
 import { generateSchemeResponse } from "../services/chatbot.service.js";
-import Scheme from "../models/scheme.model.js";
+import Schemev2 from "../models/schemev2.model.js";
 
 export const getSchemeResponse = async (req, res) => {
     try {
@@ -11,7 +11,7 @@ export const getSchemeResponse = async (req, res) => {
             });
         }
 
-        const scheme = await Scheme.findById(schemeId);
+        const scheme = await Schemev2.findById(schemeId);
         if (!scheme) {
             return res.status(404).json({ 
                 message: 'Scheme not found' 

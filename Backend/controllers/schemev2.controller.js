@@ -1,4 +1,5 @@
 import Schemev2 from "../models/schemev2.model.js";
+import User from "../models/user.model.js";
 
 const getAllSchemes = async (req, res) => {
     try {
@@ -34,9 +35,9 @@ const getSchemeByCategory = async (req, res) => {
 const getFilteredSchemes = async (req, res) => {
     try {
         // Destructure filters from req.query
-        const { 
-            search, openDate, closeDate, state, nodalMinistryName, level, 
-            category, tags, schemeName 
+        const {
+            search, openDate, closeDate, state, nodalMinistryName, level,
+            category, tags, schemeName
         } = req.query;
 
         // Prepare the filter object
@@ -45,31 +46,31 @@ const getFilteredSchemes = async (req, res) => {
         // Apply search filter to multiple fields
         if (search) {
             const searchConditions = [];
-        
+
             // Check if search term is in 'state' (exact match)
             searchConditions.push({ state: { $eq: search } });
-        
+
             // Check if search term is in 'nodalMinistryName' (partial match using regex)
             searchConditions.push({ nodalMinistryName: { $regex: search, $options: 'i' } });
-        
+
             // Check if search term is in 'schemeName' (partial match using regex)
             searchConditions.push({ schemeName: { $regex: search, $options: 'i' } });
-        
+
             // Check if search term is in 'tags' array (exact match)
             searchConditions.push({ tags: { $in: [search] } });
-        
+
             // Check if search term is in 'level' (exact match)
             searchConditions.push({ level: { $eq: search } });
-        
+
             // Check if search term is in 'Category' array (partial match using regex)
             searchConditions.push({ Category: { $regex: search, $options: 'i' } });
-        
+
             // Check if search term is in 'detailedDescription_md' (partial match)
             searchConditions.push({ detailedDescription_md: { $regex: search, $options: 'i' } });  // Case-insensitive
-        
+
             // Combine all the conditions using $or
             filter.$or = searchConditions;
-        }        
+        }
 
         // Handle date range filters for openDate and closeDate
         if (openDate || closeDate) {
@@ -119,7 +120,13 @@ const getFilteredSchemes = async (req, res) => {
 
         // Filter by schemeName (case-insensitive)
         if (schemeName) {
-            filter.schemeName = { $regex: schemeName, $options: 'i' }; // Case-insensitive match
+            filter.$or = filter.$or || []; // Ensure the $or array exists
+
+            // Case-insensitive match for schemeName
+            filter.$or.push({ schemeName: { $regex: schemeName, $options: 'i' } });
+
+            // Case-insensitive match for schemeShortTitle
+            filter.$or.push({ schemeShortTitle: { $regex: schemeName, $options: 'i' } });
         }
 
         // Query the database with the filter object
@@ -135,7 +142,80 @@ const getFilteredSchemes = async (req, res) => {
 };
 
 
+// save favorite schemes
+
+const saveFavoriteSchemes = async (req, res) => {
+    try {
+        // Get the logged-in user's ID from the request
+        const userId = req.user._id;
+
+        // Get the scheme IDs from the request body
+        const schemeId = req.body.schemeId;
+
+        // Find the user by ID and update the favorites array
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { $push: { favorites: schemeId } },
+            { new: true }
+        );
+
+        // Return a success response
+        res.status(200).json({ message: "Favorite schemes saved successfully" });
+    } catch (error) {
+        // Handle errors
+        console.error("Error saving favorite schemes:", error);
+        res.status(500).json({ message: "Error saving favorite schemes" });
+    }
+};
+
+
+const removeFavoriteSchemes = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { id } = req.params; // Change to use params instead of body
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { $pull: { favorites: id } },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ 
+            success: true,
+            message: "Scheme removed from favorites" 
+        });
+    } catch (error) {
+        console.error("Error removing favorite scheme:", error);
+        res.status(500).json({ 
+            success: false,
+            message: "Error removing favorite scheme" 
+        });
+    }
+};
+
+
+const getFavoriteSchemes = async (req, res) => {
+    try {
+        // Get the logged-in user's ID from the request
+        const userId = req.user._id;
+
+        // Find the user by ID and retrieve their favorite schemes
+        const user = await User.findById(userId);
+        
+        // Return the user's favorite schemes
+        res.status(200).json(user.favorites);
+    } catch (error) {
+        // Handle errors
+        console.error("Error retrieving favorite schemes:", error);
+        res.status(500).json({ message: "Error retrieving favorite schemes" });
+    }
+};
 
 
 
-export { getAllSchemes, getSchemeById, getSchemeByCategory, getFilteredSchemes };
+
+export { getAllSchemes, getSchemeById, getSchemeByCategory, getFilteredSchemes, saveFavoriteSchemes, removeFavoriteSchemes, getFavoriteSchemes};

@@ -1,8 +1,7 @@
 import express from "express";
 const router = express.Router();
-// export { getAllSchemes, getSchemeById, getSchemeByCategory, getFilteredSchemes };
-import { getAllSchemes, getSchemeById, getSchemeByCategory, getFilteredSchemes } from "../../controllers/schemev2.controller.js";
-// Example product routes
+import { getAllSchemes, getSchemeById, getSchemeByCategory, getFilteredSchemes, saveFavoriteSchemes, removeFavoriteSchemes, getFavoriteSchemes } from "../../controllers/schemev2.controller.js";
+import { verifyJWT } from "../../middlewares/auth.middleware.js";
 
 router.get("/get-all-schemes", getAllSchemes);
 
@@ -12,5 +11,10 @@ router.get("/get-scheme-by-category/:category", getSchemeByCategory);
 
 router.get("/get-filtered-schemes", getFilteredSchemes);
 
+router.post("/save-favorite-schemes", verifyJWT ,saveFavoriteSchemes);
+
+router.delete("/remove-favorite-schemes/:id", verifyJWT, removeFavoriteSchemes);
+
+router.get("/get-favorite-schemes", verifyJWT, getFavoriteSchemes);
 
 export default router;
