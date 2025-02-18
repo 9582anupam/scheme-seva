@@ -13,7 +13,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { toast } from "react-hot-toast";
 
-const SchemeDetails = () => {
+const SchemeDetailss = () => {
     const { id } = useParams();
     // const navigate = useNavigate();
     const [scheme, setScheme] = useState(null);
@@ -344,4 +344,4 @@ const SchemeDetails = () => {
     );
 };
 
-export default SchemeDetails;
+export default SchemeDetailss;
