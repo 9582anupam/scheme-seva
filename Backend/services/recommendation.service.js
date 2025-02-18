@@ -27,8 +27,6 @@ export const generateRecommendations = async (userId) => {
             });
         }
 
-        console.log('Query:', JSON.stringify(query, null, 2));
-
         let recommendations = await Schemev2.find(query);
 
         // If no recommendations found, fall back to basic matching
@@ -38,7 +36,6 @@ export const generateRecommendations = async (userId) => {
             }).limit(6);
         }
 
-        console.log(`Found ${recommendations.length} recommendations`);
         return recommendations;
 
     } catch (error) {
