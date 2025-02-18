@@ -1,0 +1,37 @@
+db.schemesv2.updateMany(
+  { "openDate": { $exists: true } }, // Condition to find documents with openDate field
+  [
+    {
+      $set: {
+        "openDate": { $toDate: "$openDate" } // Convert openDate to Date type
+      }
+    }
+  ]
+)
+
+db.schemesv2.updateMany(
+  { "closeDate": { $exists: true } }, // Condition to find documents with openDate field
+  [
+    {
+      $set: {
+        "closeDate": { $toDate: "$closeDate" } // Convert openDate to Date type
+      }
+    }
+  ]
+)
+
+db.schemesv2.updateMany(
+  { "nodalMinistryName": { $ne: null } },  // Match only documents where nodalMinistryName is not null
+  [
+    {
+      $set: {
+        "nodalMinistryName": "$nodalMinistryName.label"  // Set nodalMinistryName to the label field value
+      }
+    }
+  ]
+)
+
+db.schemesv2.updateMany(
+  { "Category": { "$exists": true } },  // Ensure that the field 'Category' exists
+  { $rename: { "Category": "category" } }  // Rename 'Category' to 'category'
+)

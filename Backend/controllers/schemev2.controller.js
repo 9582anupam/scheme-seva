@@ -109,7 +109,7 @@ const getFilteredSchemes = async (req, res) => {
         // Filter by category (assuming it's an array of categories)
         if (category) {
             const categoriesArray = category.split(','); // assuming categories are passed as a comma-separated string
-            filter.Category = { $in: categoriesArray };
+            filter.category = { $in: categoriesArray };
         }
 
         // Filter by tags (assuming it's an array of tags)

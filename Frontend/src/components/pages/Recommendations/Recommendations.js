@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Search } from 'lucide-react';
+import SchemeCard from '../../common/schemeCard/SchemeCard';
 import { getPersonalizedRecommendations } from '../../../services/recommendations/recommendationService';
 
 const Recommendations = () => {
@@ -22,33 +24,43 @@ const Recommendations = () => {
         fetchRecommendations();
     }, []);
 
-    if (loading) return <div>Loading recommendations...</div>;
+    const handleSchemeClick = (schemeId) => {
+        navigate(`/scheme/${schemeId}`);
+    };
+
+    if (loading) {
+        return (
+            <div className="text-center py-8">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#74B83E]"></div>
+                <p className="mt-2 text-xl">Loading recommendations...</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="max-w-7xl mx-auto p-6">
-            <h1 className="text-4xl font-bold mb-8">Your Recommended Schemes</h1>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {recommendations.map(scheme => (
-                    <div 
-                        key={scheme._id}
-                        className="neu-card p-6 cursor-pointer"
-                        onClick={() => navigate(`/scheme/${scheme._id}`)}
-                    >
-                        <h2 className="text-xl font-bold mb-2">{scheme.title}</h2>
-                        <p className="mb-4">{scheme.objective}</p>
-                        <div className="flex flex-wrap gap-2">
-                            {scheme.tags.map((tag, idx) => (
-                                <span 
-                                    key={idx}
-                                    className="px-3 py-1 bg-violet-200 border-2 border-black rounded-full"
-                                >
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
+        <div className="bg-gray-100 min-h-screen">
+            <section className="container mx-auto py-12">
+                <h1 className="text-4xl font-bold pt-10 mb-8 text-center">Recommended Schemes for You</h1>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {recommendations.map((scheme) => (
+                        <SchemeCard
+                            key={scheme._id}
+                            scheme={scheme}
+                            onSchemeClick={handleSchemeClick}
+                        />
+                    ))}
+                </div>
+
+                {recommendations.length === 0 && (
+                    <div className="text-center py-8">
+                        <Search size={48} className="text-gray-400 mx-auto mb-4" />
+                        <p className="text-xl text-gray-600">
+                            No recommendations found. Please update your profile preferences.
+                        </p>
                     </div>
-                ))}
-            </div>
+                )}
+            </section>
         </div>
     );
 };

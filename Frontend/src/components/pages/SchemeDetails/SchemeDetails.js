@@ -196,7 +196,7 @@ const SchemeDetails = () => {
                                 Categories
                             </h2>
                             <div className="flex flex-wrap gap-2 bg-gray-50 rounded-xl p-6">
-                                {scheme?.Category?.map((category, index) => (
+                                {scheme?.category?.map((category, index) => (
                                     <span
                                         key={index}
                                         className="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-sm font-medium"
