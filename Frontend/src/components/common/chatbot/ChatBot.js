@@ -259,8 +259,8 @@ const ChatBot = ({ schemeId }) => {
                             <div
                                 key={index}
                                 className={`p-3 rounded-lg ${message.type === 'user'
-                                        ? 'bg-[#74B83E] text-white ml-auto'
-                                        : 'bg-gray-100 mr-auto'
+                                    ? 'bg-[#74B83E] text-white ml-auto'
+                                    : 'bg-gray-100 mr-auto'
                                     } max-w-[85%]`}
                             >
                                 {message.type === 'bot' ? formatResponse(message.text) : <p>{message.text}</p>}

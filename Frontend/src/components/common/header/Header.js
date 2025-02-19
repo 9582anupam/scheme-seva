@@ -29,7 +29,7 @@ const Header = () => {
     return (
         <header className="bg-[#74B83E] h-20 flex items-center justify-between px-4 md:px-8 w-full relative">
             <Link className="pt-1 flex items-center" to="/">
-                <img src={lionlogo || "/placeholder.svg"} alt="logo" className="w-12 md:w-16 mr-2"/>
+                <img src={lionlogo || "/placeholder.svg"} alt="logo" className="w-12 md:w-16 mr-2" />
                 <h1 className="text-white text-2xl md:text-3xl font-bold">SchemeSeva</h1>
             </Link>
             <nav className="hidden md:flex justify-between items-center gap-10">
@@ -64,7 +64,7 @@ const Header = () => {
                 </button>
             </div>
             {isOpen && (
-                <div onClick={()=>{setIsOpen(!isOpen)}} className="absolute top-20 left-0 right-0 bg-[#74B83E] md:hidden min-h-screen z-50 px-6">
+                <div onClick={() => { setIsOpen(!isOpen); }} className="absolute top-20 left-0 right-0 bg-[#74B83E] md:hidden min-h-screen z-50 px-6">
                     <NavLink to="/" icon={<Home size={18} />}>Home</NavLink>
                     <NavLink to="/about" icon={<Info size={18} />}>About</NavLink>
                     <NavLink to="/schemes" icon={<FileText size={18} />}>Schemes</NavLink>

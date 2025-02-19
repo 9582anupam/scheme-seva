@@ -43,10 +43,10 @@ function App() {
                     <div className="content-wrapper pt-[5rem]">
                         <Routes>
                             {/* Public Routes - No Auth Needed */}
-                            
+
                             <Route path="/" element={<Home />} />
-                            <Route path="/schemes" element={<Schemes/>}/>
-                            <Route path="/scheme/:id" element={<SchemeDetails />}/>
+                            <Route path="/schemes" element={<Schemes />} />
+                            <Route path="/scheme/:id" element={<SchemeDetails />} />
                             {/* Unauthenticated Routes - Only Accessible When Logged Out */}
                             <Route element={<Unauthenticated />}>
                                 <Route path="/login" element={<Login />} />
@@ -56,7 +56,7 @@ function App() {
                             {/* Protected Routes - Only Accessible When Logged In */}
                             <Route element={<ProtectedRoutes />}>
                                 {/* <Route path="/profile" element={<div>Dashboard</div>} /> */}
-                                <Route path="/profile" element={<Profile/>} />
+                                <Route path="/profile" element={<Profile />} />
                                 <Route path="/recommendations" element={<Recommendations />} />
                             </Route>
 

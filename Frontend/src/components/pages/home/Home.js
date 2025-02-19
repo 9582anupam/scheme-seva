@@ -11,12 +11,12 @@ const Home = () => {
     return (
         <div className="overflow-x-hidden bg-white">
             <div className="w-full">
-                <HeroSection/>
-                <TotalSchemes/>
-                <Categories/>
-                <HowToApply/>
-                <AboutUs/>
-                <FAQ/>
+                <HeroSection />
+                <TotalSchemes />
+                <Categories />
+                <HowToApply />
+                <AboutUs />
+                <FAQ />
                 <Recommendations />
             </div>
         </div>

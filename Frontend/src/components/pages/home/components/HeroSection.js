@@ -6,7 +6,7 @@ import banner4 from "../../../../assets/banner4.jpg";
 import { useNavigate } from 'react-router-dom';
 const HeroSection = () => {
     const navigate = useNavigate();
-    const images = [banner2, banner3,banner4];
+    const images = [banner2, banner3, banner4];
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
@@ -26,8 +26,8 @@ const HeroSection = () => {
     };
 
     const handleExplore = () => {
-        navigate("/schemes")
-    }
+        navigate("/schemes");
+    };
 
     return (
         <section className="relative h-[calc(100vh-5rem)] overflow-hidden">
