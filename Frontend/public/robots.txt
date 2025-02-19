@@ -1,0 +1,20 @@
+# Block all crawlers
+User-agent: *
+Disallow: /
+
+# Block specific bots
+User-agent: Googlebot
+Disallow: /
+User-agent: Bingbot
+Disallow: /
+User-agent: Slurp
+Disallow: /
+User-agent: DuckDuckBot
+Disallow: /
+User-agent: Baiduspider
+Disallow: /
+User-agent: YandexBot
+Disallow: /
+
+# Sitemap reference (even though crawling is blocked)
+Sitemap: https://schemeseva.com/sitemap.xml
