@@ -54,11 +54,11 @@ const HeroSection = () => {
                 </div>
             </div>
             <button onClick={prevSlide} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full
-            hidden sm:block">
+            hidden sm:block" name="Previous Slide">
                 <ChevronLeft className="text-black" />
             </button>
             <button onClick={nextSlide} className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full
-            hidden sm:block">
+            hidden sm:block" name="Next Slide">
                 <ChevronRight className="text-black" />
             </button>
         </section>

@@ -61,7 +61,7 @@ const Header = () => {
                     {isUserLoggedIn ? <LogOut size={18} className="mr-2" /> : <LogIn size={18} className="mr-2" />}
                     <p>{isUserLoggedIn ? "Logout" : "Login"}</p>
                 </Link>
-                <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
+                <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)} name="Menu Button">
                     {isOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
             </div>
