@@ -1,6 +1,6 @@
 import axios from "axios";
 // const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/api/v1/schemes`;
-const BACKEND_URLV2 = `${process.env.REACT_APP_BACKEND_URL}/api/v1/schemesv2`;
+const BACKEND_URLV2 = `${process.env.REACT_APP_BACKEND_URL}/api/v2/schemes`;
 
 // Create axios instance with default config
 const api = axios.create({
