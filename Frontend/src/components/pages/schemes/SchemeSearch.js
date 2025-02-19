@@ -125,13 +125,13 @@ const SchemeSearch = ({ onSearch }) => {
                                 onChange={handleFilterChange}
                                 className="flex-1 px-6 py-4 text-lg border-none focus:outline-none focus:ring-0"
                             />
-                            <div
+                            <button
                                 type="submit"
                                 className="px-8 py-5  bg-[#74B83E] text-white hover:bg-[#5a9230] transition-colors duration-200 flex items-center gap-2 cursor-pointer"
                             >
                                 <Search size={20} />
                                 <span className="hidden sm:inline">Search</span>
-                            </div>
+                            </button>
                         </div>
                     </div>
                 </div>
