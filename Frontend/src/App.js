@@ -7,7 +7,7 @@ import Signup from "./components/pages/auth/Signup";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import Unauthenticated from "./routes/Unauthenticated";
 import UserProvider from "./context/UserContext";
-import SchemeDetails from "./components/pages/schemeDetails/SchemeDetailss";
+import SchemeDetails from "./components/pages/schemeDetails/SchemeDetails";
 import Schemes from "./components/pages/schemes/Schemes";
 import Profile from "./components/pages/profile/Profile";
 import Recommendations from "./components/pages/recommendations/Recommendations";

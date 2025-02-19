@@ -44,7 +44,7 @@ const SchemeDetails = () => {
         const fetchSchemeDetails = async () => {
             try {
                 const data = await getSchemeById(id);
-                setScheme(data);
+                setScheme(data.schemes);
             } catch (err) {
                 setError("Failed to fetch scheme details");
                 console.error(err);

@@ -3,8 +3,20 @@ import User from "../models/user.model.js";
 
 const getAllSchemes = async (req, res) => {
     try {
-        const schemes = await Schemev2.find();
-        res.status(200).json(schemes);
+        const { page = 1, limit = 10 } = req.query;
+        const options = {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            sort: { createdAt: -1 }
+        };
+
+        const schemes = await Schemev2.paginate({}, options);
+        res.status(200).json({
+            schemes: schemes.docs,
+            totalPages: schemes.totalPages,
+            currentPage: schemes.page,
+            totalSchemes: schemes.totalDocs
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -20,21 +32,33 @@ const getSchemeById = async (req, res) => {
     }
 };
 
-
 const getSchemeByCategory = async (req, res) => {
     try {
-        const schemes = await Schemev2.find({ schemeCategory: req.params.category });
-        res.status(200).json(schemes);
+        const { page = 1, limit = 10 } = req.query;
+        const options = {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            sort: { createdAt: -1 }
+        };
+
+        const schemes = await Schemev2.paginate(
+            { schemeCategory: req.params.category },
+            options
+        );
+        res.status(200).json({
+            schemes: schemes.docs,
+            totalPages: schemes.totalPages,
+            currentPage: schemes.page,
+            totalSchemes: schemes.totalDocs
+        });
     } catch (error) {
         res.status(404).json({ message: "Category not found" });
     }
 };
 
-
-
 const getFilteredSchemes = async (req, res) => {
     try {
-        // Destructure filters from req.query
+        const { page = 1, limit = 10 } = req.query;
         const {
             search, openDate, closeDate, state, nodalMinistryName, level,
             category, tags, schemeName
@@ -129,18 +153,24 @@ const getFilteredSchemes = async (req, res) => {
             filter.$or.push({ schemeShortTitle: { $regex: schemeName, $options: 'i' } });
         }
 
-        // Query the database with the filter object
-        const schemes = await Schemev2.find(filter);
+        const options = {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            sort: { createdAt: -1 }
+        };
 
-        // Return the filtered schemes
-        res.status(200).json(schemes);
+        const schemes = await Schemev2.paginate(filter, options);
+        res.status(200).json({
+            schemes: schemes.docs,
+            totalPages: schemes.totalPages,
+            currentPage: schemes.page,
+            totalSchemes: schemes.totalDocs
+        });
     } catch (err) {
-        // Handle errors
         console.error(err);
         res.status(500).json({ message: "Error retrieving filtered schemes", error: err });
     }
 };
-
 
 // save favorite schemes
 
@@ -168,7 +198,6 @@ const saveFavoriteSchemes = async (req, res) => {
     }
 };
 
-
 const removeFavoriteSchemes = async (req, res) => {
     try {
         const userId = req.user._id;
@@ -184,19 +213,18 @@ const removeFavoriteSchemes = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        res.status(200).json({ 
+        res.status(200).json({
             success: true,
-            message: "Scheme removed from favorites" 
+            message: "Scheme removed from favorites"
         });
     } catch (error) {
         console.error("Error removing favorite scheme:", error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: "Error removing favorite scheme" 
+            message: "Error removing favorite scheme"
         });
     }
 };
-
 
 const getFavoriteSchemes = async (req, res) => {
     try {
@@ -205,7 +233,7 @@ const getFavoriteSchemes = async (req, res) => {
 
         // Find the user by ID and retrieve their favorite schemes
         const user = await User.findById(userId);
-        
+
         // Return the user's favorite schemes
         res.status(200).json(user.favorites);
     } catch (error) {
@@ -215,7 +243,4 @@ const getFavoriteSchemes = async (req, res) => {
     }
 };
 
-
-
-
-export { getAllSchemes, getSchemeById, getSchemeByCategory, getFilteredSchemes, saveFavoriteSchemes, removeFavoriteSchemes, getFavoriteSchemes};
+export { getAllSchemes, getSchemeById, getSchemeByCategory, getFilteredSchemes, saveFavoriteSchemes, removeFavoriteSchemes, getFavoriteSchemes };

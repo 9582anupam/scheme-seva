@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const schemeSchema = new Schema({
     openDate: {
@@ -63,6 +64,9 @@ const schemeSchema = new Schema({
 }, {
     timestamps: true
 });
+
+// Add pagination plugin
+schemeSchema.plugin(mongoosePaginate);
 
 // Create indexes for common queries
 schemeSchema.index({ schemeName: 'text', schemeShortTitle: 'text' });

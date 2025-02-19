@@ -14,7 +14,7 @@ const Schemes = () => {
     useEffect(() => {
         const getDefaultSchemes = async () => {
             const results = await getAllSchemes();
-            setSchemes(results);
+            setSchemes(results.schemes);
         };
         getDefaultSchemes();
     }, []);
@@ -24,7 +24,7 @@ const Schemes = () => {
             setLoading(true);
             setError(null);
             const results = await getFilteredSchemes(filters);
-            setSchemes(results);
+            setSchemes(results.schemes);
         } catch (err) {
             setError("Failed to fetch schemes. Please try again.");
             console.error(err);
