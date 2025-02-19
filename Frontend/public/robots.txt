@@ -1,20 +1,30 @@
-# Block all crawlers
+# Allow all crawlers
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /login
+Disallow: /signup
+Disallow: /profile
+Disallow: /recommendations
+Disallow: /admin/
+Disallow: /api/
 
-# Block specific bots
+# Common bots specific rules
 User-agent: Googlebot
-Disallow: /
-User-agent: Bingbot
-Disallow: /
-User-agent: Slurp
-Disallow: /
-User-agent: DuckDuckBot
-Disallow: /
-User-agent: Baiduspider
-Disallow: /
-User-agent: YandexBot
-Disallow: /
+Allow: /
+Disallow: /login
+Disallow: /signup
+Disallow: /profile
+Disallow: /recommendations
 
-# Sitemap reference (even though crawling is blocked)
+User-agent: Bingbot
+Allow: /
+Disallow: /login
+Disallow: /signup
+Disallow: /profile
+Disallow: /recommendations
+
+# Crawl-delay suggestion
+Crawl-delay: 10
+
+# Sitemap reference
 Sitemap: https://schemeseva.com/sitemap.xml
