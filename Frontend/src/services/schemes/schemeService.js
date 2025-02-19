@@ -1,6 +1,8 @@
 import axios from "axios";
+import userAuthenticatedAxiosInstance from "../users/userAuthenticatedAxiosInstance";
 // const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/api/v1/schemes`;
 const BACKEND_URLV2 = `${process.env.REACT_APP_BACKEND_URL}/api/v2/schemes`;
+const userAxiosInstance = userAuthenticatedAxiosInstance('/api/v2/schemes');
 
 // Create axios instance with default config
 const api = axios.create({
@@ -53,59 +55,27 @@ export const getSchemeById = async (id) => {
 
 export const saveFavoriteSchemes = async (schemeId) => {
     try {
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-            throw new Error('No token found');
-        }
-
-        const { data } = await api.post('/save-favorite-schemes',
-            { schemeId },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        );
-        return data;
+        const response = await userAxiosInstance.post('/save-favorite-schemes', { schemeId });
+        return response.data;
     } catch (error) {
-        throw error.response?.data || error.message;
+        throw error;
     }
 };
-
 
 export const removeFavoriteSchemes = async (schemeId) => {
     try {
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-            throw new Error('No token found');
-        }
-        const response = await api.delete(`/remove-favorite-schemes/${schemeId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const response = await userAxiosInstance.delete(`/remove-favorite-schemes/${schemeId}`);
         return response.data;
     } catch (error) {
-        throw error.response?.data || error;
+        throw error;
     }
 };
 
-
-
 export const getFavoriteSchemes = async () => {
     try {
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-            throw new Error('No token found');
-        }
-        const response = await api.get('/get-favorite-schemes', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        return response.data || []; // Ensure we return an array
+        const response = await userAxiosInstance.get('/get-favorite-schemes');
+        return response.data;
     } catch (error) {
-        console.error('Error fetching favorites:', error);
-        return [];
+        throw error;
     }
 };

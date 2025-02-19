@@ -55,7 +55,6 @@ function App() {
 
                             {/* Protected Routes - Only Accessible When Logged In */}
                             <Route element={<ProtectedRoutes />}>
-                                {/* <Route path="/profile" element={<div>Dashboard</div>} /> */}
                                 <Route path="/profile" element={<Profile />} />
                                 <Route path="/recommendations" element={<Recommendations />} />
                             </Route>

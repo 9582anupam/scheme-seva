@@ -1,13 +1,24 @@
+import { useState, useEffect } from "react";
 import { Outlet, Navigate } from "react-router-dom";
+import { verifyToken } from "./auth";
 
 const Unauthenticated = () => {
-    // Check if user is logged in then user should not be allowed to access pages like login, signup, reset password etc
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-    // extract accessToken from localstorage to check for user auth
-    const accessToken = localStorage.getItem('accessToken');
-    const user = accessToken ? true : false;
-    console.log("user", user);
-    return !user ? <Outlet /> : <Navigate to="/" />; // Redirect to home if authenticated
+    useEffect(() => {
+        const checkAuth = async () => {
+            const authStatus = await verifyToken();
+            setIsAuthenticated(authStatus);
+        };
+        checkAuth();
+    }, []);
+
+    // Show loading state while checking authentication
+    if (isAuthenticated === null) {
+        return <div>Loading...</div>;
+    }
+
+    return !isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default Unauthenticated;

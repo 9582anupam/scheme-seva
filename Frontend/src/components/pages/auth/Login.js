@@ -88,10 +88,8 @@ const Login = () => {
                 { email, password },
                 { withCredentials: true }
             );
-            console.log("res", response);
             const data = response.data;
             if (data.success) {
-                console.log("User logged in successfully", data.user.accessToken);
                 localStorage.setItem("accessToken", data.user.accessToken);
                 setIsUserLoggedIn(true); // Update login state
                 navigate("/");

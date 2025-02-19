@@ -6,6 +6,7 @@ const refreshAccessToken = async () => {
     console.log(`inside users refreshaccesstoken`);
     if (!token) {
         console.error("Access token not found");
+        // window.location.reload();
         return;
     }
 
@@ -14,12 +15,12 @@ const refreshAccessToken = async () => {
             BACKEND_URL,
             { withCredentials: true }
         );
-        console.log("response tokenn", response.data.data.accessToken);
         localStorage.setItem("accessToken", response.data.data.accessToken);
         console.log("Access token refreshed successfully");
         return response.data.data.accessToken;
     } catch (error) {
         console.error("Error refreshing access token:", error);
+        // window.location.reload();
     }
 };
 

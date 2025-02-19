@@ -10,10 +10,12 @@ const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { isUserLoggedIn, setIsUserLoggedIn } = useContext(UserContext);
     const navigate = useNavigate();
+    
+    const userAxiosInstance = userAuthenticatedAxiosInstance('/api/v1/users');
 
     const handleLogout = async () => {
         try {
-            const response = await userAuthenticatedAxiosInstance.post("/logout");
+            const response = await userAxiosInstance.post("/logout");
             console.log(response);
             console.log("User logged out successfully");
         } catch (error) {
