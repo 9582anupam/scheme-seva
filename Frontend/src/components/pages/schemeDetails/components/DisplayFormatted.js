@@ -42,7 +42,7 @@ const TableComponent = ({ children }) => (
                             <td key={cellIndex} className="p-2 border-r border-gray-300">
                                 {renderChildren(cell.children)}
                             </td>
-                        ))} 
+                        ))}
                     </tr>
                 ))}
             </tbody>

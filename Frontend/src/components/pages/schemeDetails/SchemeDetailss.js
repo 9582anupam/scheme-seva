@@ -5,7 +5,7 @@ import { ArrowLeft, Target, List, FileText, Users, Building, Download, Share2, C
 import ChatBot from "../../common/chatbot/ChatBot";
 import { generatePDF } from "../../../helper/generatePdf";
 import { shareScheme } from "../../../helper/shareScheme";
-import DisplayFormatted from "./DisplayFormatted";
+import DisplayFormatted from "./components/DisplayFormatted";
 import ReactMarkdown from 'react-markdown';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -75,7 +75,7 @@ const SchemeDetails = () => {
 
     const handleSaveScheme = async () => {
         if (isSaving) return;
-        
+
         try {
             setIsSaving(true);
             if (isSaved) {
@@ -85,7 +85,7 @@ const SchemeDetails = () => {
                 await saveFavoriteSchemes(id);
                 toast.success('Added to favorites');
             }
-            
+
             setIsSaved(!isSaved);
         } catch (error) {
             console.error('Error managing favorite:', error);
@@ -266,17 +266,15 @@ const SchemeDetails = () => {
                         <button
                             onClick={handleSaveScheme}
                             disabled={isSaving}
-                            className={`px-6 py-3 text-white rounded-lg flex items-center gap-2 transition-colors duration-200 shadow-sm ${
-                                isSaving ? 'opacity-50 cursor-not-allowed' : ''
-                            } ${
-                                isSaved 
-                                ? 'bg-[#74B83E] hover:bg-[#629a33]' 
-                                : 'bg-gray-600 hover:bg-gray-700'
-                            }`}
+                            className={`px-6 py-3 text-white rounded-lg flex items-center gap-2 transition-colors duration-200 shadow-sm ${isSaving ? 'opacity-50 cursor-not-allowed' : ''
+                                } ${isSaved
+                                    ? 'bg-[#74B83E] hover:bg-[#629a33]'
+                                    : 'bg-gray-600 hover:bg-gray-700'
+                                }`}
                         >
-                            <Bookmark 
-                                className={`${isSaved ? 'fill-white' : ''} ${isSaving ? 'animate-pulse' : ''}`} 
-                                size={20} 
+                            <Bookmark
+                                className={`${isSaved ? 'fill-white' : ''} ${isSaving ? 'animate-pulse' : ''}`}
+                                size={20}
                             />
                             {isSaving ? 'Processing...' : isSaved ? 'Saved' : 'Save'}
                         </button>
