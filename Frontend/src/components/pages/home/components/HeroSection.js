@@ -47,19 +47,29 @@ const HeroSection = () => {
                     <p className="text-xl mb-8">
                         Get information about all the government schemes, categorized and easy to explore
                     </p>
-                    <button onClick={handleExplore} className="bg-[#74B83E] text-white px-6 py-3 rounded-full text-lg font-semibold flex items-center hover:bg-[#5d9b2b] transition duration-300">
+                    <button
+                        onClick={handleExplore}
+                        className="bg-[#74B83E] text-white px-6 py-3 rounded-full text-lg font-semibold flex items-center hover:bg-[#5d9b2b] transition duration-300"
+                        aria-label="Explore Government Schemes"
+                    >
                         Explore Schemes
-                        <ChevronRight className="ml-2" />
+                        <ChevronRight className="ml-2" aria-hidden="true" />
                     </button>
                 </div>
             </div>
-            <button onClick={prevSlide} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full
-            hidden sm:block" name="Previous Slide">
-                <ChevronLeft className="text-black" />
+            <button
+                onClick={prevSlide}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hidden sm:block"
+                aria-label="Previous slide"
+            >
+                <ChevronLeft className="text-black" aria-hidden="true" />
             </button>
-            <button onClick={nextSlide} className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full
-            hidden sm:block" name="Next Slide">
-                <ChevronRight className="text-black" />
+            <button
+                onClick={nextSlide}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hidden sm:block"
+                aria-label="Next slide"
+            >
+                <ChevronRight className="text-black" aria-hidden="true" />
             </button>
         </section>
     );
