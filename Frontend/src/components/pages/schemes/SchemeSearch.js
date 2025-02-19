@@ -3,7 +3,8 @@ import { Search, BookOpen, Users, Coins, Calendar, Building2, MapPin, Filter, Ch
 
 // Constants for select options
 const CATEGORIES = [
-    "Women and Child Utility & Sanitation",
+    "Women and Child",
+    "Utility & Sanitation",
     "Travel & Tourism",
     "Transport & Infrastructure Sports & Culture",
     "Social welfare & Empowerment",
@@ -19,27 +20,27 @@ const CATEGORIES = [
 ];
 
 const MINISTRIES = [
-    "Ministry of Culture",
-    "Ministry of Petroleum and Natural Gas",
-    "Ministry of Rural Development",
-    "Ministry of Housing & Urban Affairs",
-    "Ministry of Heavy Industries",
-    "Ministry of Health & Family Welfare",
-    "Ministry of Science And Technology",
-    "Ministry of Law and Justice",
-    "Ministry of Agriculture and Farmers Welfare",
-    "Ministry of Labour and Employment",
-    "Ministry of External Affairs",
+    "Ministry Of Culture",
+    "Ministry Of Petroleum and Natural Gas",
+    "Ministry Of Rural Development",
+    "Ministry Of Housing & Urban Affairs",
+    "Ministry Of Heavy Industries",
+    "Ministry Of Health & Family Welfare",
+    "Ministry Of Science And Technology",
+    "Ministry Of Law and Justice",
+    "Ministry Of Agriculture and Farmers Welfare",
+    "Ministry Of Labour and Employment",
+    "Ministry Of External Affairs",
     "Ministry Of Youth Affairs & Sports",
     "Ministry Of Micro, Small and Medium Enterprises",
-    "Ministry of Commerce And Industry",
-    "Ministry of Minority Affairs",
+    "Ministry Of Commerce And Industry",
+    "Ministry Of Minority Affairs",
     "Ministry Of New and Renewable Energy",
     "Ministry Of Social Justice and Empowerment",
-    "Ministry of Finance",
-    "Ministry of Women and Child Development",
-    "Ministry of Jal Shakti",
-    "Ministry of Education",
+    "Ministry Of Finance",
+    "Ministry Of Women and Child Development",
+    "Ministry Of Jal Shakti",
+    "Ministry Of Education",
     "Ministry Of Skill Development And Entrepreneurship"
 ];
 
