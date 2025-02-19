@@ -64,7 +64,6 @@ git clone [repository-url]
 ```bash
 cd Frontend
 npm install
-npm start
 ```
 
 3. Backend Setup
@@ -76,10 +75,12 @@ npm install
 4. Environment Variables
 Create .env file in Backend directory with:
 ```
-PORT=8000
+PORT=5000
 MONGODB_URI=your_mongodb_uri
 ACCESS_TOKEN_SECRET=your_access_token_secret
+ACCESS_TOKEN_EXPIRY=your_refresh_token_secret_expiry
 REFRESH_TOKEN_SECRET=your_refresh_token_secret
+REFRESH_TOKEN_EXPIRY=your_access_token_secret_expiry
 GEMINI_API_KEY=your_gemini_api_key
 ```
 
@@ -88,21 +89,38 @@ GEMINI_API_KEY=your_gemini_api_key
 npm start
 ```
 
+5. Start Frontend
+```bash
+npm start
+```
+
 ## API Endpoints
 
 ### User Routes
-- POST `/api/v1/users/register` - User registration
+- POST `/api/v1/users/signup` - User signup
 - POST `/api/v1/users/login` - User login
-- GET `/api/v1/users/profile` - Get user profile
+- POST `/api/v1/users/logout` - User logout (with JWT verification)
+- GET `/api/v1/users/refresh-access-token` - Refresh access token
+- GET `/api/v1/users/getme` - Get current user details (with JWT verification)
+- POST `/api/v1/users/putdata` - Put data (with JWT verification)
 
-### Scheme Routes
-- GET `/api/v1/schemes/get-all-schemes` - Get all schemes
-- GET `/api/v1/schemes/get-scheme-filtered` - Get filtered schemes
-- GET `/api/v1/schemes/get-scheme-by-id/:id` - Get specific scheme
-- POST `/api/v1/schemes/create-scheme` - Create new scheme
+
+  ### Scheme Routes
+- GET `/api/v2/schemes/get-all-schemes` - Get all schemes
+- GET `/api/v2/schemes/get-scheme-by-id/:id` - Get a specific scheme by ID
+- GET `/api/v2/schemes/get-scheme-by-category/:category` - Get schemes by category
+- GET `/api/v2/schemes/get-filtered-schemes` - Get filtered schemes
+- POST `/api/v2/schemes/save-favorite-schemes` - Save favorite schemes (with JWT verification)
+- DELETE `/api/v2/schemes/remove-favorite-schemes/:id` - Remove a favorite scheme by ID (with JWT verification)
+- GET `/api/v2/schemes/get-favorite-schemes` - Get all favorite schemes (with JWT verification)
+
 
 ### Chatbot Routes
 - POST `/api/v1/chatbot` - Get AI-powered responses
+
+### Recommendation Routes
+- GET `/api/v1/users/personalized` - Get personalized recommendations (with JWT verification)
+
 
 ## Contributing
 
