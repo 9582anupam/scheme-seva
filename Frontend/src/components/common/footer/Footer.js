@@ -93,7 +93,7 @@ const Footer = () => {
                                 <div key={index}>
                                     <img
                                         src={icon}
-                                        alt={icon.name}
+                                        alt={index}
                                         className="w-8"
                                     />
                                 </div>
