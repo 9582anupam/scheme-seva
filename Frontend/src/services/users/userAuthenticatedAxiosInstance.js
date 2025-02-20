@@ -6,6 +6,9 @@ const createAxiosInstance = (endpoint, setIsUserLoggedIn) => {
         baseURL: `${process.env.REACT_APP_BACKEND_URL}${endpoint}`,
         withCredentials: true,
         credentials: "include",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },        
     });
 
     axiosInstance.interceptors.response.use(
