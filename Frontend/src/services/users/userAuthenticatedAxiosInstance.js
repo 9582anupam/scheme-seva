@@ -5,6 +5,7 @@ const createAxiosInstance = (endpoint, setIsUserLoggedIn) => {
     const axiosInstance = axios.create({
         baseURL: `${process.env.REACT_APP_BACKEND_URL}${endpoint}`,
         withCredentials: true,
+        credentials: "include",
     });
 
     axiosInstance.interceptors.response.use(
