@@ -127,8 +127,8 @@ const login = async (req, res) => {
         // Send back the user's information
         return res
             .status(200)
-            .cookie("accessToken", accessToken)
-            .cookie("refreshToken", refreshToken)
+            .cookie("accessToken", accessToken, option)
+            .cookie("refreshToken", refreshToken, option)
             .json({
                 message: "User logged in successfully",
                 user: userDetails,
