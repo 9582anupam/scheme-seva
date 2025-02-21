@@ -43,7 +43,7 @@ const Schemes = () => {
         <div className="bg-gray-100 min-h-screen">
             <section className="container mx-auto py-12">
                 <h1 className="text-4xl font-bold pt-10 mb-8 text-center">Find Schemes for You</h1>
-                <div className="bg-gray-200 rounded-lg shadow-md px-6 py-10 mb-8">
+                <div className="bg-gray-200 rounded-lg shadow-md sm:px-6 sm:py-10 mb-8">
                     <SchemeSearch onSearch={handleSearch} />
                 </div>
 

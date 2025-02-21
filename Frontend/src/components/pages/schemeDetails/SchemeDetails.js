@@ -7,28 +7,17 @@ import { generatePDF } from "../../../helper/generatePdf";
 import { shareScheme } from "../../../helper/shareScheme";
 import DisplayFormatted from "./components/DisplayFormatted";
 import ReactMarkdown from 'react-markdown';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { toast } from "react-hot-toast";
 
 const SchemeDetails = () => {
     const { id } = useParams();
-    // const navigate = useNavigate();
     const [scheme, setScheme] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const contentRef = useRef(null);
-    const [expanded, setExpanded] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
-    // const [savedSchemes, setSavedSchemes] = useState([]);
     const [isSaving, setIsSaving] = useState(false);
-    console.log();
-
-    const handleAccordionChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
+    const [activeTab, setActiveTab] = useState('overview');
 
     const formatDate = (dateString) => {
         if (!dateString) return null;
@@ -62,7 +51,6 @@ const SchemeDetails = () => {
                 const savedSchemes = await getFavoriteSchemes();
                 const isSaved = savedSchemes.includes(id);
                 setIsSaved(isSaved);
-
             } catch (error) {
                 console.error('Error checking saved status:', error);
             }
@@ -79,7 +67,7 @@ const SchemeDetails = () => {
         try {
             setIsSaving(true);
             if (isSaved) {
-                await removeFavoriteSchemes(id); // Use route param ID instead of scheme._id
+                await removeFavoriteSchemes(id);
                 toast.success('Removed from favorites');
             } else {
                 await saveFavoriteSchemes(id);
@@ -99,6 +87,14 @@ const SchemeDetails = () => {
     if (error) return <div className="p-4 text-red-500 text-center">{error}</div>;
     if (!scheme) return <div className="p-4 text-center">Scheme not found</div>;
 
+    const tabs = [
+        { id: 'overview', label: 'Overview', icon: Target },
+        { id: 'eligibility', label: 'Eligibility', icon: Users },
+        { id: 'benefits', label: 'Benefits', icon: List },
+        { id: 'documents', label: 'Documents', icon: FileText },
+        { id: 'apply', label: 'Apply', icon: FileText },
+        { id: 'faq', label: 'FAQ', icon: List },
+    ];
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -112,19 +108,15 @@ const SchemeDetails = () => {
                 </button>
 
                 <div ref={contentRef} className="bg-white rounded-2xl shadow-lg p-8 space-y-8">
+                    {/* Header Section */}
                     <header className="border-b border-gray-100 pb-6">
                         <h1 className="text-4xl font-bold mb-3 text-gray-900">{scheme?.schemeName}</h1>
                         {scheme?.schemeShortTitle && (
                             <p className="text-gray-500 text-lg">({scheme.schemeShortTitle})</p>
                         )}
-                    </header>
-
-                    <section className="space-y-3">
-                        <h2 className="text-xl font-semibold flex items-center text-gray-800">
-                            <Tag className="mr-2 text-[#74B83E]" size={24} />
-                            Tags
-                        </h2>
-                        <div className="flex flex-wrap gap-2">
+                        
+                        {/* Tags */}
+                        <div className="mt-4 flex flex-wrap gap-2">
                             {scheme?.tags?.map((tag, index) => (
                                 <span
                                     key={index}
@@ -134,143 +126,113 @@ const SchemeDetails = () => {
                                 </span>
                             ))}
                         </div>
-                    </section>
 
-                    <section className="space-y-3">
-                        <h2 className="text-xl font-semibold flex items-center text-gray-800">
-                            <Target className="mr-2 text-[#74B83E]" size={24} />
-                            Description
-                        </h2>
-                        <div className="prose max-w-none text-gray-600 bg-gray-50 rounded-xl p-6">
-                            <ReactMarkdown>{scheme?.detailedDescription_md}</ReactMarkdown>
+                        {/* Important Details */}
+                        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 rounded-xl p-4">
+                            {scheme?.nodalMinistryName && (
+                                <p className="text-gray-600">Ministry: <span className="font-medium text-gray-900">{scheme.nodalMinistryName}</span></p>
+                            )}
+                            {scheme?.state && (
+                                <p className="text-gray-600">State: <span className="font-medium text-gray-900">{scheme.state}</span></p>
+                            )}
+                            {scheme?.level && (
+                                <p className="text-gray-600">Level: <span className="font-medium text-gray-900">{scheme.level}</span></p>
+                            )}
+                            {scheme?.openDate && (
+                                <p className="text-gray-600">Open Date: <span className="font-medium text-gray-900">{formatDate(scheme.openDate)}</span></p>
+                            )}
+                            {scheme?.closeDate && (
+                                <p className="text-gray-600">Close Date: <span className="font-medium text-gray-900">{formatDate(scheme.closeDate)}</span></p>
+                            )}
                         </div>
-                    </section>
+                    </header>
 
-                    <section className="space-y-4">
-                        <h2 className="text-xl font-semibold flex items-center text-gray-800">
-                            <FileText className="mr-2 text-[#74B83E]" size={24} />
-                            How to Apply
-                        </h2>
-                        {scheme?.applicationProcess?.map((process, index) => (
-                            <div key={index} className="bg-gray-50 rounded-xl p-6">
-                                <h3 className="font-semibold text-gray-800 mb-3">{process?.mode}:</h3>
-                                <DisplayFormatted benefitsData={process?.process} />
-                            </div>
-                        ))}
-                    </section>
-
-                    <section className="space-y-3">
-                        <h2 className="text-xl font-semibold flex items-center text-gray-800">
-                            <Users className="mr-2 text-[#74B83E]" size={24} />
-                            Eligibility
-                        </h2>
-                        <div className="prose max-w-none text-gray-600 bg-gray-50 rounded-xl p-6">
-                            <ReactMarkdown>{scheme?.eligibilityDescription_md}</ReactMarkdown>
-                        </div>
-                    </section>
-
-                    <section className="space-y-3">
-                        <h2 className="text-xl font-semibold flex items-center text-gray-800">
-                            <FileText className="mr-2 text-[#74B83E]" size={24} />
-                            Required Documents
-                        </h2>
-                        <div className="bg-gray-50 rounded-xl p-6">
-                            <DisplayFormatted benefitsData={scheme?.documents_required} />
-                        </div>
-                    </section>
-
-                    <section className="space-y-3">
-                        <h2 className="text-xl font-semibold flex items-center text-gray-800">
-                            <List className="mr-2 text-[#74B83E]" size={24} />
-                            Benefits
-                        </h2>
-                        <div className="bg-gray-50 rounded-xl p-6">
-                            <DisplayFormatted benefitsData={scheme?.benefits} />
-                        </div>
-                    </section>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <section className="space-y-3">
-                            <h2 className="text-xl font-semibold flex items-center text-gray-800">
-                                <Building className="mr-2 text-[#74B83E]" size={24} />
-                                Categories
-                            </h2>
-                            <div className="flex flex-wrap gap-2 bg-gray-50 rounded-xl p-6">
-                                {scheme?.category?.map((category, index) => (
-                                    <span
-                                        key={index}
-                                        className="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-sm font-medium"
+                    {/* Tab Navigation */}
+                    <div className="border-b border-gray-200">
+                        <nav className="-mb-px flex space-x-8 overflow-x-auto">
+                            {tabs.map((tab) => {
+                                const Icon = tab.icon;
+                                return (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`
+                                            flex items-center pb-4 px-1 border-b-2 font-medium text-sm
+                                            ${activeTab === tab.id
+                                                ? 'border-[#74B83E] text-[#74B83E]'
+                                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                            }
+                                        `}
                                     >
-                                        {category}
-                                    </span>
-                                ))}
-                            </div>
-                        </section>
-
-                        <section className="space-y-3">
-                            <h2 className="text-xl font-semibold flex items-center text-gray-800">
-                                <CalendarRange className="mr-2 text-[#74B83E]" size={24} />
-                                Important Details
-                            </h2>
-                            <div className="space-y-2 bg-gray-50 rounded-xl p-6">
-                                {scheme?.nodalMinistryName ? (
-                                    <p className="text-gray-600">Ministry: <span className="font-medium text-gray-900">{scheme.nodalMinistryName}</span></p>
-                                ) : (
-
-                                    <p className="text-gray-600">State: <span className="font-medium text-gray-900">{scheme?.state}</span></p>
-                                )}
-                                {scheme?.level &&
-                                    <p className="text-gray-600">Level: <span className="font-medium text-gray-900">{scheme?.level}</span></p>
-                                }
-                                {/* open and close date if exist */}
-                                {scheme?.openDate && (
-                                    <p className="text-gray-600">
-                                        Open Date: <span className="font-medium text-gray-900">
-                                            {formatDate(scheme.openDate)}
-                                        </span>
-                                    </p>
-                                )}
-                                {scheme?.closeDate && (
-                                    <p className="text-gray-600">
-                                        Close Date: <span className="font-medium text-gray-900">
-                                            {formatDate(scheme.closeDate)}
-                                        </span>
-                                    </p>
-                                )}
-
-                            </div>
-                        </section>
+                                        <Icon className="mr-2" size={20} />
+                                        {tab.label}
+                                    </button>
+                                );
+                            })}
+                        </nav>
                     </div>
 
-                    {scheme?.references?.length > 0 && (
-                        <section className="space-y-3">
-                            <h2 className="text-xl font-semibold mb-3">References</h2>
-                            <div className="flex flex-wrap gap-3">
-                                {scheme?.references?.map((ref, index) => (
-                                    <a
-                                        key={index}
-                                        href={ref?.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-gray-700 transition-colors duration-200 flex items-center gap-2"
-                                    >
-                                        <FileText size={18} />
-                                        {ref?.title}
-                                    </a>
+                    {/* Tab Content */}
+                    <div className="py-4">
+                        {activeTab === 'overview' && (
+                            <div className="prose max-w-none text-gray-600">
+                                <ReactMarkdown>{scheme?.detailedDescription_md}</ReactMarkdown>
+                            </div>
+                        )}
+
+                        {activeTab === 'eligibility' && (
+                            <div className="prose max-w-none text-gray-600">
+                                <ReactMarkdown>{scheme?.eligibilityDescription_md}</ReactMarkdown>
+                            </div>
+                        )}
+
+                        {activeTab === 'benefits' && (
+                            <div className="bg-gray-50 rounded-xl p-6">
+                                <DisplayFormatted benefitsData={scheme?.benefits} />
+                            </div>
+                        )}
+
+                        {activeTab === 'documents' && (
+                            <div className="bg-gray-50 rounded-xl p-6">
+                                <DisplayFormatted benefitsData={scheme?.documents_required} />
+                            </div>
+                        )}
+
+                        {activeTab === 'apply' && (
+                            <div className="space-y-4">
+                                {scheme?.applicationProcess?.map((process, index) => (
+                                    <div key={index} className="bg-gray-50 rounded-xl p-6">
+                                        <h3 className="font-semibold text-gray-800 mb-3">{process?.mode}:</h3>
+                                        <DisplayFormatted benefitsData={process?.process} />
+                                    </div>
                                 ))}
                             </div>
-                        </section>
-                    )}
+                        )}
 
+                        {activeTab === 'faq' && scheme?.faqs?.length > 0 && (
+                            <div className="space-y-4">
+                                {scheme.faqs.map((faq, index) => (
+                                    <div key={index} className="bg-gray-50 rounded-xl p-6">
+                                        <h3 className="font-semibold text-gray-900 mb-2">{faq.question}</h3>
+                                        <p className="text-gray-600">{faq.answer}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Action Buttons */}
                     <div className="flex flex-wrap gap-4 pt-6 border-t border-gray-100">
                         <button
                             onClick={handleSaveScheme}
                             disabled={isSaving}
-                            className={`px-6 py-3 text-white rounded-lg flex items-center gap-2 transition-colors duration-200 shadow-sm ${isSaving ? 'opacity-50 cursor-not-allowed' : ''
-                                } ${isSaved
+                            className={`px-6 py-3 text-white rounded-lg flex items-center gap-2 transition-colors duration-200 shadow-sm ${
+                                isSaving ? 'opacity-50 cursor-not-allowed' : ''
+                            } ${
+                                isSaved
                                     ? 'bg-[#74B83E] hover:bg-[#629a33]'
                                     : 'bg-gray-600 hover:bg-gray-700'
-                                }`}
+                            }`}
                         >
                             <Bookmark
                                 className={`${isSaved ? 'fill-white' : ''} ${isSaving ? 'animate-pulse' : ''}`}
@@ -293,47 +255,6 @@ const SchemeDetails = () => {
                             Share
                         </button>
                     </div>
-
-                    {/* faq accordion */}
-                    <section className="space-y-6">
-                        <h2 className="text-xl font-semibold flex items-center text-gray-800">
-                            <List className="mr-2 text-[#74B83E]" size={24} />
-                            Frequently Asked Questions
-                        </h2>
-                        <div className="space-y-3">
-                            {scheme?.faqs?.map((faq, index) => (
-                                <Accordion
-                                    key={index}
-                                    expanded={expanded === `panel${index}`}
-                                    onChange={handleAccordionChange(`panel${index}`)}
-                                    sx={{
-                                        backgroundColor: 'rgb(249 250 251)',
-                                        boxShadow: 'none',
-                                        '&:before': {
-                                            display: 'none',
-                                        },
-                                        borderRadius: '0.75rem !important',
-                                        marginBottom: '0.75rem',
-                                    }}
-                                >
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon sx={{ color: '#74B83E' }} />}
-                                        sx={{
-                                            '& .MuiAccordionSummary-content': {
-                                                margin: '12px 0',
-                                            },
-                                        }}
-                                    >
-                                        <span className="font-medium text-gray-900">{faq.question}</span>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <p className="text-gray-600">{faq.answer}</p>
-                                    </AccordionDetails>
-                                </Accordion>
-                            ))}
-                        </div>
-                    </section>
-
                 </div>
 
                 {scheme && <ChatBot schemeId={scheme?._id} />}
