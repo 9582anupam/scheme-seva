@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { getSchemeById, saveFavoriteSchemes, removeFavoriteSchemes, getFavoriteSchemes } from "../../../services/schemes/schemeService";
-import { ArrowLeft, Target, List, FileText, Users, Building, Download, Share2, CalendarRange, Tag, Bookmark } from 'lucide-react';
+import { ArrowLeft, Target, List, FileText, Users, Download, Share2, Bookmark } from 'lucide-react';
 import ChatBot from "../../common/chatbot/ChatBot";
 import { generatePDF } from "../../../helper/generatePdf";
 import { shareScheme } from "../../../helper/shareScheme";
