@@ -10,6 +10,7 @@ const renderChildren = (children) => {
         if (child.underline) style.textDecoration = 'underline';
         if (child.italic) style.fontStyle = 'italic';
 
+        // Check for type "link" and handle separately
         if (child.type === "link") {
             return (
                 <a
@@ -19,18 +20,20 @@ const renderChildren = (children) => {
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:underline"
                 >
-                    {text}
+                    {renderChildren(child.children)} {/* Render children of the link if present */}
                 </a>
             );
         }
 
+        // Ensure text is handled even if empty
         return (
             <span key={index} style={style}>
-                {text}
+                {text || ''}
             </span>
         );
     });
 };
+
 
 const TableComponent = ({ children }) => (
     <div className="overflow-x-auto my-4">
