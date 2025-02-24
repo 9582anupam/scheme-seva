@@ -6,7 +6,7 @@ import ChatBot from "../../common/chatbot/ChatBot";
 import { generatePDF } from "../../../helper/generatePdf";
 import { shareScheme } from "../../../helper/shareScheme";
 import DisplayFormatted from "./components/DisplayFormatted";
-import ReactMarkdown from 'react-markdown';
+import DisplayMarkdown from './components/DisplayMarkdown';
 import { toast } from "react-hot-toast";
 
 const SchemeDetails = () => {
@@ -114,7 +114,7 @@ const SchemeDetails = () => {
                         {scheme?.schemeShortTitle && (
                             <p className="text-gray-500 text-lg">({scheme.schemeShortTitle})</p>
                         )}
-                        
+
                         {/* Tags */}
                         <div className="mt-4 flex flex-wrap gap-2">
                             {scheme?.tags?.map((tag, index) => (
@@ -175,15 +175,11 @@ const SchemeDetails = () => {
                     {/* Tab Content */}
                     <div className="py-4">
                         {activeTab === 'overview' && (
-                            <div className="prose max-w-none text-gray-600">
-                                <ReactMarkdown>{scheme?.detailedDescription_md}</ReactMarkdown>
-                            </div>
+                            <DisplayMarkdown content={scheme?.detailedDescription_md} />
                         )}
 
                         {activeTab === 'eligibility' && (
-                            <div className="prose max-w-none text-gray-600">
-                                <ReactMarkdown>{scheme?.eligibilityDescription_md}</ReactMarkdown>
-                            </div>
+                            <DisplayMarkdown content={scheme?.eligibilityDescription_md} />
                         )}
 
                         {activeTab === 'benefits' && (
@@ -226,13 +222,11 @@ const SchemeDetails = () => {
                         <button
                             onClick={handleSaveScheme}
                             disabled={isSaving}
-                            className={`px-6 py-3 text-white rounded-lg flex items-center gap-2 transition-colors duration-200 shadow-sm ${
-                                isSaving ? 'opacity-50 cursor-not-allowed' : ''
-                            } ${
-                                isSaved
+                            className={`px-6 py-3 text-white rounded-lg flex items-center gap-2 transition-colors duration-200 shadow-sm ${isSaving ? 'opacity-50 cursor-not-allowed' : ''
+                                } ${isSaved
                                     ? 'bg-[#74B83E] hover:bg-[#629a33]'
                                     : 'bg-gray-600 hover:bg-gray-700'
-                            }`}
+                                }`}
                         >
                             <Bookmark
                                 className={`${isSaved ? 'fill-white' : ''} ${isSaving ? 'animate-pulse' : ''}`}
