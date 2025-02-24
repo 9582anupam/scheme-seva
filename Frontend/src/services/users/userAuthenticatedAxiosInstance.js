@@ -19,7 +19,9 @@ const createAxiosInstance = (endpoint, setIsUserLoggedIn) => {
                 if (newAccessToken) {
                     return axiosInstance.request(error.config);
                 }
+                localStorage.removeItem("accessToken");
             }
+
             return Promise.reject(error);
         }
     );
