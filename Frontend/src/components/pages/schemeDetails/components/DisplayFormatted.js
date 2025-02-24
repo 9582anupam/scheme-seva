@@ -54,10 +54,67 @@ const TableComponent = ({ children }) => (
 );
 
 const ListItem = ({ item }) => {
-    if (item.type === "list_item") {
-        return <li className="mb-2">{renderChildren(item.children)}</li>;
-    }
-    return null;
+    if (!item?.type === "list_item") return null;
+
+    // Find any nested lists in the item's children
+    const listContent = [];
+    const textContent = [];
+
+    item.children?.forEach(child => {
+        if (child.type === "ol_list") {
+            listContent.push(child);
+        } else {
+            textContent.push(child);
+        }
+    });
+
+    return (
+        <li className="mb-2">
+            {textContent.length > 0 && renderChildren(textContent)}
+            {listContent.map((list, index) => (
+                <ol key={index} className="list-decimal pl-6 mt-2">
+                    {list.children.map((child, childIndex) => (
+                        <ListItem key={childIndex} item={child} />
+                    ))}
+                </ol>
+            ))}
+        </li>
+    );
+};
+
+const processListItems = (items) => {
+    return items.map((item, index) => {
+        if (item.type === "ol_list") {
+            return (
+                <ol key={index} className="list-decimal pl-6 mt-2">
+                    {processListItems(item.children)}
+                </ol>
+            );
+        }
+        if (item.type === "list_item") {
+            return (
+                <li key={index} className="mb-2">
+                    {renderChildren(item.children.filter(child => child.type !== "ol_list"))}
+                    {item.children.filter(child => child.type === "ol_list").map((sublist, subIndex) => (
+                        <ol key={subIndex} className="list-decimal pl-6 mt-2">
+                            {processListItems(sublist.children)}
+                        </ol>
+                    ))}
+                </li>
+            );
+        }
+        return null;
+    });
+};
+
+const RenderList = ({ list }) => {
+    if (!list?.children) return null;
+
+    return (
+        <ol className="list-decimal pl-6 my-4 space-y-2">
+            {processListItems(list.children)}
+        </ol>
+    );
 };
 
 const AlignJustify = ({ content }) => {
@@ -65,11 +122,7 @@ const AlignJustify = ({ content }) => {
         switch (item.type) {
             case "ol_list":
                 return (
-                    <ol key={index} className="list-decimal pl-6 my-4 space-y-2">
-                        {item.children.map((listItem, listIndex) => (
-                            <ListItem key={listIndex} item={listItem} />
-                        ))}
-                    </ol>
+                    <RenderList key={index} list={item} />
                 );
             case "paragraph":
                 return (
@@ -110,20 +163,12 @@ const RenderContent = ({ content }) => {
 
             case "ol_list":
                 return (
-                    <ol key={index} className="list-decimal pl-6 my-4 space-y-2">
-                        {item.children.map((listItem, listIndex) => (
-                            <ListItem key={listIndex} item={listItem} />
-                        ))}
-                    </ol>
+                    <RenderList key={index} list={item} />
                 );
 
             case "ul_list":
                 return (
-                    <ul key={index} className="list-disc pl-6 my-4 space-y-2">
-                        {item.children.map((listItem, listIndex) => (
-                            <ListItem key={listIndex} item={listItem} />
-                        ))}
-                    </ul>
+                    <RenderList key={index} list={item} />
                 );
 
             case "table":
