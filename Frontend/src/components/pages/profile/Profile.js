@@ -72,6 +72,7 @@ const Profile = () => {
                 const response = await getUserProfile();
                 if (response.success) {
                     setUserData(response.data);
+                    console.log(response.data);
                 } else {
                     toast.error("Failed to fetch profile data");
                 }
@@ -147,6 +148,7 @@ const Profile = () => {
                             icon={<User />}
                             label="Gender"
                             value={
+                                userData.gender &&
                                 userData.gender?.charAt(0).toUpperCase() +
                                 userData.gender?.slice(1)
                             }
