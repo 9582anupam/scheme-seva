@@ -13,7 +13,8 @@ const Recommendations = () => {
         const fetchRecommendations = async () => {
             try {
                 const data = await getPersonalizedRecommendations();
-                setRecommendations(data);
+                console.log(data.data.schemes);
+                setRecommendations(data.data.schemes);
             } catch (error) {
                 console.error('Failed to fetch recommendations:', error);
             } finally {

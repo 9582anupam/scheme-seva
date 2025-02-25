@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 
 const getAllSchemes = async (req, res) => {
     try {
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 9 } = req.query;
         const options = {
             page: parseInt(page),
             limit: parseInt(limit),
@@ -34,7 +34,7 @@ const getSchemeById = async (req, res) => {
 
 const getSchemeByCategory = async (req, res) => {
     try {
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 9 } = req.query;
         const options = {
             page: parseInt(page),
             limit: parseInt(limit),
@@ -58,7 +58,7 @@ const getSchemeByCategory = async (req, res) => {
 
 const getFilteredSchemes = async (req, res) => {
     try {
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 9 } = req.query;
         const {
             search, openDate, closeDate, state, nodalMinistryName, level,
             category, tags, schemeName
