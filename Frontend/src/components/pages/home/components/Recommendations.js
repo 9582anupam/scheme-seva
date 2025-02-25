@@ -19,7 +19,8 @@ const Recommendations = () => {
             try {
                 setLoading(true);
                 const data = await getPersonalizedRecommendations();
-                setRecommendations(data);
+                console.log(data.schemes);
+                setRecommendations(data.schemes);
             } catch (err) {
                 setError("Failed to fetch recommendations");
                 console.error(err);

@@ -38,10 +38,32 @@ export const generateRecommendations = async (userId, options) => {
 
         let recommendations = await Schemev2.paginate(query, paginationOptions);
 
-        // If no recommendations found with filters, try without filters
+        // If no recommendations found with filters, return random 9 schemes
         if (!recommendations.docs.length) {
-            const fallbackQuery = {};
-            recommendations = await Schemev2.paginate(fallbackQuery, paginationOptions);
+            console.log('No recommendations found with filters. Returning random 9 schemes...');
+            const randomSchemes = await Schemev2.aggregate([
+                { $sample: { size: 9 } },
+                { 
+                    $project: {
+                        schemeName: 1,
+                        schemeShortTitle: 1,
+                        state: 1,
+                        level: 1,
+                        nodalMinistryName: 1,
+                        Category: 1,
+                        tags: 1
+                    }
+                }
+            ]);
+
+            return {
+                schemes: randomSchemes,
+                totalPages: 1,
+                currentPage: 1,
+                totalSchemes: 9,
+                hasNextPage: false,
+                hasPrevPage: false
+            };
         }
 
         return {
