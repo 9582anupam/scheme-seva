@@ -4,9 +4,26 @@ import banner2 from "../../../../assets/banner2.webp";
 import banner3 from "../../../../assets/banner3.jpg";
 import banner4 from "../../../../assets/banner4.jpg";
 import { useNavigate } from 'react-router-dom';
+
 const HeroSection = () => {
     const navigate = useNavigate();
-    const images = [banner2, banner3, banner4];
+    const images = [
+        {
+            src: banner2,
+            alt: "Government Schemes Banner 1",
+            priority: true // First image gets high priority
+        },
+        {
+            src: banner3,
+            alt: "Government Schemes Banner 2",
+            priority: false
+        },
+        {
+            src: banner4,
+            alt: "Government Schemes Banner 3",
+            priority: false
+        }
+    ];
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
@@ -31,13 +48,17 @@ const HeroSection = () => {
 
     return (
         <section className="relative h-[calc(100vh-5rem)] overflow-hidden">
-            <div className="absolute inset-0 flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-                {images.map((src, index) => (
+            <div className="absolute inset-0 flex transition-transform duration-500 ease-in-out" 
+                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+                {images.map((image, index) => (
                     <img
                         key={index}
-                        src={src || "/placeholder.svg"}
-                        alt={`Government Scheme ${index + 1}`}
+                        src={image.src}
+                        alt={image.alt}
                         className="w-full h-full object-cover flex-shrink-0"
+                        loading={image.priority ? "eager" : "lazy"}
+                        fetchpriority={image.priority ? "high" : "auto"}
+                        decoding="async"
                     />
                 ))}
             </div>

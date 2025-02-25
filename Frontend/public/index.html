@@ -17,6 +17,27 @@
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
+        <!-- Preload LCP Images -->
+        <link 
+            rel="preload" 
+            as="image" 
+            href="%PUBLIC_URL%/static/media/banner2.webp" 
+            type="image/webp"
+            fetchpriority="high"
+        />
+        <link 
+            rel="preload" 
+            as="image" 
+            href="%PUBLIC_URL%/static/media/banner3.jpg" 
+            type="image/jpeg"
+        />
+        <link 
+            rel="preload" 
+            as="image" 
+            href="%PUBLIC_URL%/static/media/banner4.jpg" 
+            type="image/jpeg"
+        />
+
         <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
         <!-- <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> -->
         <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
