@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { Menu, X, Home, Info, FileText, Mail, LogIn, LogOut } from 'lucide-react';
+import React, { useState, useContext, useRef, useEffect } from "react";
+import { Menu, X, Home, Info, FileText, Mail, LogIn, ShieldCheck   , User } from 'lucide-react';
 import { Link } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +8,23 @@ import lionlogo from "../../../assets/lionsymbol.png";
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
     const { isUserLoggedIn, setIsUserLoggedIn } = useContext(UserContext);
     const navigate = useNavigate();
+    const profileRef = useRef(null);
     
     const userAxiosInstance = userAuthenticatedAxiosInstance('/api/v1/users');
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (profileRef.current && !profileRef.current.contains(event.target)) {
+                setIsProfileOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleLogout = async () => {
         try {
@@ -23,6 +36,7 @@ const Header = () => {
         } finally {
             localStorage.removeItem("accessToken");
             setIsUserLoggedIn(false);
+            setIsProfileOpen(false);
             navigate("/");
             console.log("User logged out unsuccessfully");
         }
@@ -47,20 +61,47 @@ const Header = () => {
                     <FileText className="w-7 h-7" />
                     <p className="font-semibold">Schemes</p>
                 </Link>
-                <Link to="/contact" className="flex flex-col justify-center items-center text-white">
-                    <Mail className="w-7 h-7" />
-                    <p className="font-semibold">Contact</p>
+                <Link to="/recommendations" className="flex flex-col justify-center items-center text-white">
+                    <ShieldCheck    className="w-7 h-7" />
+                    <p className="font-semibold">Suggests</p>
                 </Link>
             </nav>
             <div className="flex gap-4 items-center">
-                <Link
-                    to={isUserLoggedIn ? "#" : "/login"}
-                    className="bg-white text-black rounded-md px-4 py-2 flex justify-center items-center cursor-pointer"
-                    onClick={isUserLoggedIn ? handleLogout : null}
-                >
-                    {isUserLoggedIn ? <LogOut size={18} className="mr-2" /> : <LogIn size={18} className="mr-2" />}
-                    <p>{isUserLoggedIn ? "Logout" : "Login"}</p>
-                </Link>
+                {isUserLoggedIn ? (
+                    <div className="relative" ref={profileRef}>
+                        <button
+                            onClick={() => setIsProfileOpen(!isProfileOpen)}
+                            className="bg-white text-black rounded-full p-2 hover:bg-gray-100 transition-colors"
+                        >
+                            <User size={24} className="text-[#74B83E]" />
+                        </button>
+                        {isProfileOpen && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                <Link
+                                    to="/profile"
+                                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                                    onClick={() => setIsProfileOpen(false)}
+                                >
+                                    Profile
+                                </Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <Link
+                        to="/login"
+                        className="bg-white text-black rounded-md px-4 py-2 flex justify-center items-center cursor-pointer"
+                    >
+                        <LogIn size={18} className="mr-2" />
+                        <p>Login</p>
+                    </Link>
+                )}
                 <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)} name="Menu Button">
                     {isOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
