@@ -1,13 +1,31 @@
 db.schemesv2.updateMany(
-  { "openDate": { $exists: true } }, // Condition to find documents with openDate field
+  {
+    "openDate": { $exists: true },  // Ensure openDate exists
+    "openDate": { $ne: 'NaN-NaN-NaN' },  // Exclude 'NaN-NaN-NaN'
+    "openDate": { $regex: /^\d{4}-\d{2}-\d{2}$/ }  // Match valid date format (yyyy-mm-dd)
+  },
   [
     {
       $set: {
-        "openDate": { $toDate: "$openDate" } // Convert openDate to Date type
+        "openDate": { $toDate: "$openDate" }  // Convert to Date type
       }
     }
   ]
 )
+
+db.schemesv2.updateMany(
+  {
+    "openDate": 'NaN-NaN-NaN'  // Find documents where openDate is 'NaN-NaN-NaN'
+  },
+  [
+    {
+      $set: {
+        "openDate": null  // Change openDate to null
+      }
+    }
+  ]
+)
+
 
 db.schemesv2.updateMany(
   { "closeDate": { $exists: true } }, // Condition to find documents with openDate field
