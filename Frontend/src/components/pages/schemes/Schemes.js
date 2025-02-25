@@ -1,36 +1,57 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Search } from 'lucide-react';
 import SchemeSearch from "./SchemeSearch";
 import SchemeCard from "../../common/schemeCard/SchemeCard";
-import { getFilteredSchemes, getAllSchemes } from "../../../services/schemes/schemeService";
+import { getFilteredSchemes, getAllSchemes } from '../../../services/schemes/schemeService';
+import Pagination from '../../common/pagination/Pagination';
 
 const Schemes = () => {
     const navigate = useNavigate();
     const [schemes, setSchemes] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalSchemes, setTotalSchemes] = useState(0);
+    const [filters, setFilters] = useState({});
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const getDefaultSchemes = async () => {
-            const results = await getAllSchemes();
-            setSchemes(results.schemes);
-        };
-        getDefaultSchemes();
-    }, []);
-
-    const handleSearch = async (filters) => {
+    const fetchSchemes = useCallback(async (page) => {
         try {
             setLoading(true);
             setError(null);
-            const results = await getFilteredSchemes(filters);
-            setSchemes(results.schemes);
-        } catch (err) {
+            let data;
+            
+            if (Object.keys(filters).length > 0) {
+                data = await getFilteredSchemes(filters, page);
+            } else {
+                data = await getAllSchemes(page);
+            }
+
+            setSchemes(data.schemes);
+            setTotalPages(data.totalPages);
+            setCurrentPage(data.currentPage);
+            setTotalSchemes(data.totalSchemes);
+        } catch (error) {
             setError("Failed to fetch schemes. Please try again.");
-            console.error(err);
+            console.error('Error fetching schemes:', error);
         } finally {
             setLoading(false);
         }
+    }, [filters]);
+
+    useEffect(() => {
+        fetchSchemes(currentPage);
+    }, [currentPage, fetchSchemes]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        window.scrollTo(0, 0);
+    };
+
+    const handleSearch = async (filters) => {
+        setFilters(filters);
+        setCurrentPage(1);
     };
 
     const handleSchemeClick = (schemeId) => {
@@ -39,6 +60,10 @@ const Schemes = () => {
         navigate(`/scheme/${schemeId}`);
     };
 
+    const schemesCountText = totalSchemes > 0 
+        ? `Showing ${schemes.length} of ${totalSchemes} schemes`
+        : '';
+
     return (
         <div className="bg-gray-100 min-h-screen">
             <section className="container mx-auto py-12">
@@ -46,6 +71,10 @@ const Schemes = () => {
                 <div className="bg-gray-200 rounded-lg shadow-md sm:px-6 sm:py-10 mb-8">
                     <SchemeSearch onSearch={handleSearch} />
                 </div>
+
+                {!loading && schemesCountText && (
+                    <p className="text-gray-600 mb-4">{schemesCountText}</p>
+                )}
 
                 {loading && (
                     <div className="text-center py-8">
@@ -69,6 +98,14 @@ const Schemes = () => {
                         />
                     ))}
                 </div>
+
+                {!loading && schemes.length > 0 && (
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                )}
 
                 {schemes.length === 0 && !loading && (
                     <div className="text-center py-8">

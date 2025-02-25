@@ -13,9 +13,11 @@ const api = axios.create({
     }
 });
 
-export const getFilteredSchemes = async (filters) => {
+export const getFilteredSchemes = async (filters, page = 1, limit = 9) => {
     try {
         const params = {
+            page,
+            limit,
             ...(filters.search && { search: filters.search }),
             ...(filters.schemeName && { schemeName: filters.schemeName }),
             ...(filters.openDate && { openDate: filters.openDate }),
@@ -29,16 +31,28 @@ export const getFilteredSchemes = async (filters) => {
         };
 
         const { data } = await api.get('/get-filtered-schemes', { params });
-        return data;
+        return {
+            schemes: data.schemes,
+            totalPages: data.totalPages,
+            currentPage: data.currentPage,
+            totalSchemes: data.totalSchemes
+        };
     } catch (error) {
         throw error.response?.data || error.message;
     }
 };
 
-export const getAllSchemes = async () => {
+export const getAllSchemes = async (page = 1, limit = 9) => {
     try {
-        const { data } = await api.get('/get-all-schemes');
-        return data;
+        const { data } = await api.get('/get-all-schemes', {
+            params: { page, limit }
+        });
+        return {
+            schemes: data.schemes,
+            totalPages: data.totalPages,
+            currentPage: data.currentPage,
+            totalSchemes: data.totalSchemes
+        };
     } catch (error) {
         throw error.response?.data || error.message;
     }
