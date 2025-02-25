@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { Menu, X, Home, Info, FileText, Mail, LogIn, ShieldCheck   , User } from 'lucide-react';
+import { Menu, X, Home, Info, FileText, LogIn, ShieldCheck   , User } from 'lucide-react';
 import { Link } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -111,7 +111,7 @@ const Header = () => {
                     <NavLink to="/" icon={<Home size={18} />}>Home</NavLink>
                     <NavLink to="/about" icon={<Info size={18} />}>About</NavLink>
                     <NavLink to="/schemes" icon={<FileText size={18} />}>Schemes</NavLink>
-                    <NavLink to="/contact" icon={<Mail size={18} />}>Contact</NavLink>
+                    <NavLink to="/recommendations" icon={<ShieldCheck size={18} />}>Suggests</NavLink>
                 </div>
             )}
         </header>
