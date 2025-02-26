@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { UserContext } from '../../../../context/UserContext';
 import SchemeCard from '../../../common/schemeCard/SchemeCard';
@@ -31,10 +31,6 @@ const Recommendations = () => {
 
         fetchRecommendations();
     }, [isUserLoggedIn]);
-
-    const handleSchemeClick = (schemeId) => {
-        navigate(`/scheme/${schemeId}`);
-    };
 
     if (!isUserLoggedIn) {
         return (
@@ -83,11 +79,9 @@ const Recommendations = () => {
                 {recommendations.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {recommendations.map((scheme) => (
-                            <SchemeCard
-                                key={scheme._id}
-                                scheme={scheme}
-                                onSchemeClick={handleSchemeClick}
-                            />
+                        <Link to={`/scheme/${scheme._id}`} key={scheme._id}>
+                            <SchemeCard scheme={scheme} />
+                        </Link>
                         ))}
                     </div>
                 ) : (

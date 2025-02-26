@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import SchemeCard from '../../common/schemeCard/SchemeCard';
 import Pagination from '../../common/pagination/Pagination';
@@ -12,7 +12,6 @@ const Recommendations = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalSchemes, setTotalSchemes] = useState(0);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
     const fetchRecommendations = useCallback(async (page) => {
         try {
@@ -39,10 +38,6 @@ const Recommendations = () => {
     const handlePageChange = (page) => {
         setCurrentPage(page);
         window.scrollTo(0, 0);
-    };
-
-    const handleSchemeClick = (schemeId) => {
-        navigate(`/scheme/${schemeId}`);
     };
 
     const recommendationsCountText = totalSchemes > 0 
@@ -75,11 +70,9 @@ const Recommendations = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {recommendations.map((scheme) => (
-                        <SchemeCard
-                            key={scheme._id}
-                            scheme={scheme}
-                            onSchemeClick={handleSchemeClick}
-                        />
+                        <Link to={`/scheme/${scheme._id}`} key={scheme._id}>
+                            <SchemeCard scheme={scheme} />
+                        </Link>
                     ))}
                 </div>
 
