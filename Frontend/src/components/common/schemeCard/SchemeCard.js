@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import DisplayMarkdown from '../../pages/schemeDetails/components/DisplayMarkdown';
 
 const SchemeCard = ({ scheme }) => {
     return (
@@ -10,7 +11,7 @@ const SchemeCard = ({ scheme }) => {
                         {scheme.schemeName}
                     </h2>
                     <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
-                        {scheme.detailedDescription_md}
+                        <DisplayMarkdown content={scheme.detailedDescription_md} />
                     </p>
                 </div>
 
