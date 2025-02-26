@@ -259,7 +259,7 @@ const SchemeSearch = ({ onSearch }) => {
                                             name="openDate"
                                             value={filters.openDate}
                                             onChange={handleFilterChange}
-                                            className="w-full p-2.5 pl-10 pr-4 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#74B83E] focus:border-transparent transition-all duration-200"
+                                            className="w-full p-[.430rem] pl-10 pr-4 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#74B83E] focus:border-transparent transition-all duration-200"
                                             placeholder="Open Date"
                                         />
                                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
@@ -270,7 +270,7 @@ const SchemeSearch = ({ onSearch }) => {
                                             name="closeDate"
                                             value={filters.closeDate}
                                             onChange={handleFilterChange}
-                                            className="w-full p-2.5 pl-10 pr-4 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#74B83E] focus:border-transparent transition-all duration-200"
+                                            className="w-full p-[.430rem] pl-10 pr-4 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#74B83E] focus:border-transparent transition-all duration-200"
                                             placeholder="Close Date"
                                         />
                                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
