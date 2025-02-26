@@ -119,10 +119,12 @@ const login = async (req, res) => {
         userDetails = { ...userDetails.toObject(), accessToken };
 
         // sending accessToken and refreshToken as cookies
-        const option = {
-            httpOnly: true,
-            secure: true,
+        const options = {
+            httpOnly: true,  // Cannot be accessed via JavaScript (only sent with HTTP requests)
+            secure: process.env.NODE_ENV === 'production', // Set to true only in production (for HTTPS)
+            sameSite: 'None', // Allows cross-origin cookie transmission (important for cross-origin requests)
         };
+
 
         // Send back the user's information
         return res
@@ -266,7 +268,7 @@ const getMe = async (req, res) => {
             message: "User details fetched successfully",
             success: true,
         });
-        
+
     } catch (error) {
         return res.status(500).json({
             message: "Internal server error",
@@ -370,7 +372,7 @@ const putData = async (req, res) => {
             message: "User details updated successfully",
             success: true,
         });
-        
+
     } catch (error) {
         return res.status(500).json({
             message: "Internal server error",
