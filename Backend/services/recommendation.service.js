@@ -33,7 +33,7 @@ export const generateRecommendations = async (userId, options) => {
             limit: options.limit || 9,
             sort: { createdAt: -1 },
             lean: true,
-            select: 'schemeName schemeShortTitle state level nodalMinistryName Category tags'
+            select: 'schemeName schemeShortTitle state level nodalMinistryName Category tags detailedDescription_md'
         };
 
         let recommendations = await Schemev2.paginate(query, paginationOptions);
@@ -51,7 +51,8 @@ export const generateRecommendations = async (userId, options) => {
                         level: 1,
                         nodalMinistryName: 1,
                         Category: 1,
-                        tags: 1
+                        tags: 1,
+                        detailedDescription_md: 1
                     }
                 }
             ]);
