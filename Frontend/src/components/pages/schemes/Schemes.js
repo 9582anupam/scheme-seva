@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Search } from 'lucide-react';
 import SchemeSearch from "./SchemeSearch";
 import SchemeCard from "../../common/schemeCard/SchemeCard";
@@ -7,7 +7,6 @@ import { getFilteredSchemes, getAllSchemes } from '../../../services/schemes/sch
 import Pagination from '../../common/pagination/Pagination';
 
 const Schemes = () => {
-    const navigate = useNavigate();
     const [schemes, setSchemes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -54,12 +53,6 @@ const Schemes = () => {
         setCurrentPage(1);
     };
 
-    const handleSchemeClick = (schemeId) => {
-        console.log(schemeId);
-
-        navigate(`/scheme/${schemeId}`);
-    };
-
     const schemesCountText = totalSchemes > 0 
         ? `Showing ${schemes.length} of ${totalSchemes} schemes`
         : '';
@@ -91,11 +84,16 @@ const Schemes = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {schemes.map((scheme) => (
-                        <SchemeCard
+                        <Link
+                            to={`/scheme/${scheme._id}`}
                             key={scheme._id}
-                            scheme={scheme}
-                            onSchemeClick={handleSchemeClick}
-                        />
+                        >
+
+                            <SchemeCard
+                                key={scheme._id}
+                                scheme={scheme}
+                            />
+                        </Link>
                     ))}
                 </div>
 
