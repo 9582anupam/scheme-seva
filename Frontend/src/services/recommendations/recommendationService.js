@@ -7,10 +7,10 @@ export const getPersonalizedRecommendations = async (page = 1, limit = 9) => {
         const response = await userAxiosInstance.get('/personalized', {
             params: { page, limit },
             withCredentials: true, // Ensure credentials (cookies) are sent
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // Include JWT token
-            }
+            // headers: {
+            //     'Content-Type': 'application/json',
+            //     'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // Include JWT token
+            // }
         });
 
         return {
