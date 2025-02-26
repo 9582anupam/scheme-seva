@@ -46,7 +46,7 @@ const Recommendations = () => {
     };
 
     const recommendationsCountText = totalSchemes > 0 
-        ? `Showing ${recommendations.length} of ${totalSchemes} recommended schemes`
+        ? `Showing ${(currentPage-1)*9}-${recommendations.length*9} of ${totalSchemes} recommended schemes`
         : '';
 
     if (loading) {

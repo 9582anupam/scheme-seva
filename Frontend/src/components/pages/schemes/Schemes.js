@@ -54,7 +54,7 @@ const Schemes = () => {
     };
 
     const schemesCountText = totalSchemes > 0 
-        ? `Showing ${schemes.length} of ${totalSchemes} schemes`
+        ? `Showing ${(currentPage-1)*9}-${currentPage*9} of ${totalSchemes} schemes`
         : '';
 
     return (
