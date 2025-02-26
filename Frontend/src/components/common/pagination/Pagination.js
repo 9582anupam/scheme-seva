@@ -22,7 +22,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     const pages = getPageRange();
 
     return (
-        <div className="flex items-center justify-center space-x-2 mt-8">
+        <div className="flex items-center justify-center space-x-2 py-10">
             <button
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}

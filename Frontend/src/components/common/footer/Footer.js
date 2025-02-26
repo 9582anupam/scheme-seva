@@ -28,8 +28,8 @@ const Footer = () => {
     const socialMedia = [facebook, x, instagram, youtube];
 
     return (
-        <footer className="flex flex-col font-raleway">
-            <div className="flex bg-[#F3F3F3] justify-center py-8">
+        <footer className="flex flex-col font-raleway ">
+            <div className="flex bg-white justify-center py-8">
                 <div className="flex flex-wrap gap-6 px-6 md:w-11/12 lg:w-10/12 justify-between">
                     <div className="flex flex-col gap-2">
                         {/* <img src={logo} alt="logo" />
