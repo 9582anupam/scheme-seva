@@ -53,3 +53,13 @@ db.schemesv2.updateMany(
   { "Category": { "$exists": true } },  // Ensure that the field 'Category' exists
   { $rename: { "Category": "category" } }  // Rename 'Category' to 'category'
 )
+
+
+
+
+
+
+
+// Original formattedAll_category_data.json has one element with more than 50 depth with shortSchemeTitle: MDSCY,
+   In order to insert it in mongo reduce its depth using deepseek. it is unnecessarily deep.
+   And it is duplicate too, means there is two documents with same data MDSCY so remove one.
